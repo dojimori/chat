@@ -1,10 +1,7 @@
 <template>
 
-    <form 
-        v-motion-fade 
-        class="bg-white p-4 w-[300px] border border-slate-400 shadow-md"
-        @submit.prevent="submitHandler"
-    >
+    <form v-motion-fade class="bg-white p-4 w-[300px] border border-slate-400 shadow-md"
+        @submit.prevent="submitHandler">
 
         <h4 class="text-lg">join chat</h4>
         <div class="border w-full border-gray-300"></div>
@@ -12,10 +9,24 @@
         <div class="mt-4">
             <input type="text" placeholder="Username" v-model="username"
                 class="border border-gray-400 px-4 py-1.5 w-full shadow-inner outline-none">
-            <button class="w-full p-1.5 text-white mt-2 shadow-inner cursor-pointer "><span class="font-bold tracking-wider">enter</span></button>
+            <button class="w-full p-1.5 text-white mt-2 shadow-inner cursor-pointer "><span
+                    class="font-bold tracking-wider">enter</span></button>
         </div>
 
     </form>
+
+    <div class="w-full text-center">
+        <small class="cursor-pointer">
+            <a href="https://github.com/dojimori" target="_blank" class="text-center underline">
+                github 
+            </a>
+            | 
+            <a href="https://www.facebook.com/jo.jyn626" target="_blank" class="text-center underline">
+                facebook 
+            </a>
+        </small>
+    </div>
+
 
 </template>
 
