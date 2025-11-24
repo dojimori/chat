@@ -67,8 +67,10 @@ export default {
 
     methods: {
         submitHandler() {
-            // localStorage.setItem('username', this.username);
-            socket.emit('join', this.username);
+            if (!this.username.trim()) return;
+            localStorage.setItem('username', this.username.trim());
+
+
             this.$router.push('/chat')
         }
     }

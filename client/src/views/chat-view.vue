@@ -102,6 +102,8 @@ export default {
         }
     },
     mounted() {
+        const username = localStorage.getItem('username')
+        socket.emit('join', username);
         socket.on("chat:message", (data) => {
             this.messages.push({
                 message: data.message,
