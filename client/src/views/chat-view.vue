@@ -64,13 +64,22 @@
         />
 
         <!-- emoji container -->
-        <div
-          class="absolute bottom-full right-30 z-10 mb-2 bg-gray-100 rounded-xs border border-gray-200 p-4"
-        >
-          <img src="/assets/emojis/bento-box.gif" alt="" class="emoji" />
-        </div>
+        <!-- <Transition>
+          <div
+            v-if="showEmoji"
+            class="absolute bottom-full right-30 z-10 mb-2 bg-gray-100 rounded-xs border border-gray-200 p-4"
+          >
+            <img src="/assets/emojis/bento-box.gif" alt="" class="emoji" />
+          </div>
+        </Transition> -->
 
-        <button type="button" class="emoji-btn text-xs cursor-pointer text-gray-600 mx-2">
+        <emoji-picker :showEmoji="showEmoji"></emoji-picker>
+
+        <button
+          type="button"
+          @click="showEmoji = !showEmoji"
+          class="emoji-btn text-xs cursor-pointer text-gray-600 mx-2"
+        >
           <i class="ph ph-smiley text-lg"></i>
         </button>
 
@@ -111,18 +120,9 @@ input:focus {
   transition: all 0.3s ease;
 }
 
-.emoji {
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
 .emoji-btn:hover {
   scale: 1.2;
   transform: rotate(-15deg);
-}
-
-.emoji:hover {
-  scale: 1.2;
 }
 
 @keyframes lift {
@@ -149,9 +149,13 @@ input:focus {
 <script>
 import { ref } from "vue";
 import { socket } from "../utils/socket";
+import EmojiPicker from "@/components/emoji-picker.vue";
 
 export default {
   name: "ChatView",
+  components: {
+    EmojiPicker,
+  },
   data() {
     return {
       messages: [],
