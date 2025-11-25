@@ -34,6 +34,7 @@ io.on('connection', (socket) => {
   socket.on('join', (username) => {
     console.log(`${username} joined.`)
     users.set(socket.id, username);
+    io.emit('joined', `${username} joined the chat`)
   })
 
   socket.on('disconnect', () => {

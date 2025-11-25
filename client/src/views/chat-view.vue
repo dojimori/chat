@@ -24,21 +24,29 @@
       <div class="h-[60vh] p-2 flex flex-col gap-3 overflow-y-scroll" ref="chatBox">
         <div
           v-motion-slide-bottom
-          v-for="data in messages"
+          v-for="(data, index) in messages"
+          :key="index"
           class="flex flex-col p-1.5 gap-1"
         >
-          <div class="flex flex-row flex-wrap gap-4">
-            <img src="/def_pfp_2.jpg" width="36" height="28" class="object-cover" />
-            <span
-              class="flex items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5"
-            >
-              {{ data.message }}
-            </span>
+          <!-- chat message -->
+          <div v-if="data.type == 'chat'">
+            <div class="flex flex-row flex-wrap gap-4">
+              <img src="/def_pfp_2.jpg" width="36" height="28" class="object-cover" />
+              <span
+                class="flex items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5"
+              >
+                {{ data.message }}
+              </span>
+            </div>
+            <p class="font-bold text-[#29487d]">
+              {{ data.username }}
+              <span class="text-gray-400 font-normal">{{ data.time }}</span>
+            </p>
           </div>
-          <p class="font-bold text-[#29487d]">
-            {{ data.username }}
-            <span class="text-gray-400 font-normal">{{ data.time }}</span>
-          </p>
+          <!-- joined message -->
+          <div v-else-if="data.type == 'joined'" class="text-center">
+            <small class="text-gray-600">{{ data.message }}</small>
+          </div>
         </div>
       </div>
 
@@ -144,16 +152,24 @@ export default {
   mounted() {
     const username = localStorage.getItem("username");
     socket.emit("join", username);
+    socket.on("joined", (data) => {
+      // console.log(data);
+      this.messages.push({
+        message: data,
+        type: "joined",
+      });
+    });
     socket.on("chat:message", (data) => {
       this.messages.push({
         message: data.message,
         time: data.time,
         username: data.username,
+        type: "chat",
       });
       this.scrollToBottom();
     });
 
-    this.$nextTick(() => this.$nextTick(() => this.scrollToBottom()));
+    // this.$nextTick(() => this.$nextTick(() => this.scrollToBottom()));
   },
 };
 </script>
