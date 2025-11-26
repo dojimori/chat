@@ -6,7 +6,7 @@
       v-motion
       :initial="{ opacity: 0, y: 100 }"
       :enter="{ opacity: 1, y: 0 }"
-      :duration="400"
+      :duration="300"
       class="shadow-xl"
     >
       <!-- chat header -->
@@ -36,7 +36,7 @@
             <div class="flex flex-row flex-wrap gap-4">
               <img src="/def_pfp_2.jpg" width="36" height="28" class="object-cover" />
               <span
-                class="flex items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5"
+                class="flex items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5 cursor-pointer message-box"
               >
                 <span v-html="renderMessage(data.message)"> </span>
               </span>
@@ -135,6 +135,14 @@ img:hover {
   transform: rotate(-15deg);
 }
 
+.message-box {
+  transition: all 0.3s ease;
+}
+
+.message-box:hover {
+  transform: scale(1.05);
+}
+
 :deep(.message-emoji) {
   width: 20px;
   height: 20px;
@@ -187,6 +195,9 @@ export default {
   methods: {
     sendMessage() {
       // Replace to communicate with an API later
+
+      if (this.message.trim() == "") return;
+
       socket.emit("chat:message", {
         message: this.message,
         time: this.currentTime,
