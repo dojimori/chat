@@ -15,6 +15,15 @@
         name="username"
         class="border border-gray-400 px-4 py-1.5 w-full shadow-inner outline-none"
       />
+
+      <input
+        type="text"
+        placeholder="Password"
+        v-model="username"
+        name="password"
+        class="border border-gray-400 px-4 py-1.5 w-full shadow-inner outline-none mt-2"
+      />
+
       <button
         class="enter-btn w-full p-1.5 text-white mt-2 shadow-inner cursor-pointer hover:shadow-md"
       >
