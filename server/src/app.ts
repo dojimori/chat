@@ -4,6 +4,7 @@ import { Server } from 'socket.io'
 import authRoute from './routes/auth.route'
 import morgan from 'morgan'
 import cors from 'cors'
+import session from 'express-session'
 
 const app = express();
 const server = http.createServer(app)
@@ -14,7 +15,13 @@ const io = new Server(server, {
 app.use(morgan('dev'))
 app.use(cors({ origin: '*' }))
 app.use(express.json())
+app.use(session({
+  secret: "secrethehehe",
+  resave: false,
+  saveUninitialized: false
+}))
 app.use('/api/auth', authRoute);
+
 
 const users = new Map();
 
@@ -61,6 +68,6 @@ io.on('connection', (socket) => {
 
 });
 
-server.listen(3000, () => {
-  console.log('Server running on  http://localhost:3000');
+server.listen(8080, () => {
+  console.log('Server running on  http://localhost:8080');
 });

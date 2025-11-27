@@ -66,4 +66,42 @@ router.post('/register', async (req: Request, res: Response) => {
     }
 })
 
+router.post('/login', async (req: Request, res: Response) => {
+    try {
+        const { username, password } = req.body;
+        console.log('body', req.body);
+        if (username.trim() == '' || password.trim() == '') {
+            return res.status(409).json({ message: 'Please fill in missing fields.'})
+        }
+
+        const user = await prisma.user.findFirst({
+            where: {
+                username: username
+            }
+        })
+        if (!user) {
+            return res.status(409).json({ message: 'Invalid account.'})
+        }
+
+        const isValid = await bcrypt.compare(password, user.password);
+
+        if (!isValid) {
+            return res.status(409).json({ message: 'Invalid account.'})
+        }
+
+        req.session.user = { id: user.id, username: user.username };
+
+        return res.status(200).json({ message: 'Login successfully.'});
+    } catch(error) {
+        console.log(error)
+        return res.status(500).json({ message: 'Login failed :('});
+    }
+})
+
+router.post('/logout', async (req: Request, res: Response) => {
+    req.session.destroy(() => {
+        console.log('Session destroyed');
+    });
+})
+
 export default router;
