@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import { prisma } from '../../lib/prisma';
 import bcrypt from "bcryptjs"
 
@@ -19,7 +19,7 @@ router.get('/auth-test', async (req, res) => {
     }
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response) => {
     try {
         // await prisma.user.create({
         //     data: {
@@ -30,8 +30,19 @@ router.post('/register', async (req, res) => {
 
         // res.status(201).send('created')
         const { username, password } = req.body;
+        
+        if (username.trim() == '' || password.trim() == '') {
+            return res.status(409).json({ message: 'Please fill in missing fields.'})
+        }
+
+        if (password.length < 6) {
+            return res.status(409).json({ message: 'Password must be atleast 6 characters.'})
+        }
+
         const userNameExists = await prisma.user.findFirst({
-            where: { username: username }
+            where: { 
+                username: username
+            }
         })
 
         if (userNameExists) {
@@ -48,9 +59,10 @@ router.post('/register', async (req, res) => {
             }
         });
 
-        res.status(201).json({ message: 'Registered successfully!'})
+        res.status(201).json({ message: 'Registered successfully, please login.'})
     } catch(err) {
         console.log(err)
+        res.status(500).json({ message: `${err}`})
     }
 })
 

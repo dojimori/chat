@@ -4,7 +4,7 @@ import ChatView from './views/chat-view.vue';
 import RegisterView from './views/register-view.vue';
 
 const routes = [
-    { path: '/', component: LoginView },
+    { path: '/', name: "login", component: LoginView },
     { path: '/register', component: RegisterView },
     { 
         path: '/chat', 

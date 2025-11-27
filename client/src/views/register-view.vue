@@ -2,10 +2,18 @@
   <form
     v-motion-fade
     class="bg-white p-4 w-[300px] border border-slate-400 shadow-md"
-    @submit.prevent="submitHandler"
+    @submit.prevent="register"
   >
     <h4 class="text-lg">register</h4>
-    <div class="border w-full border-gray-300"></div>
+    <div class="border w-full border-gray-300 mb-4"></div>
+    <div class="flex items-center justify-center">
+      <span
+        v-motion-fade
+        v-if="errorMessage"
+        class="w-full bg-red-200 border border-red-300 p-2 text-red-800"
+        >{{ errorMessage }}</span
+      >
+    </div>
 
     <div class="mt-4">
       <input
@@ -13,24 +21,29 @@
         placeholder="Username"
         v-model="username"
         name="username"
+        :disabled="isLoading"
         class="border border-gray-400 px-4 py-1.5 w-full shadow-inner outline-none"
       />
 
       <input
-        type="text"
+        type="password"
         placeholder="Password"
-        v-model="username"
+        v-model="password"
+        :disabled="isLoading"
         name="password"
         class="border border-gray-400 px-4 py-1.5 w-full shadow-inner outline-none mt-2"
       />
 
       <button
-        class="w-full p-1.5 text-white mt-2 shadow-inner cursor-pointer hover:shadow-md enter-btn"
+        :disabled="isLoading"
+        class="w-full p-1.5 text-white mt-2 shadow-inner flex items-center justify-center cursor-pointer hover:shadow-md enter-btn"
       >
-        <span class="font-bold tracking-wider">register</span>
+        <vue-spinner v-if="isLoading" size="20"></vue-spinner>
+        <span v-else class="font-bold tracking-wider">register</span>
       </button>
 
       <button
+        :disabled="isLoading"
         class="text-[#29487d] w-full p-1.5 mt-2 shadow-inner border border-gray-200 cursor-pointer hover:scale-105 duration-200 transition-all ease-in flex items-center gap-2"
       >
         <i class="ph ph-arrow-left text-gray-600"></i>
@@ -100,19 +113,57 @@ input:focus {
 </style>
 
 <script>
+import { VueSpinner } from "vue3-spinners";
+
 export default {
-  name: "LoginView",
+  name: "RegisterView",
   data() {
     return {
       username: "",
+      password: "",
+      isLoading: false,
+      errorMessage: null,
     };
+  },
+  components: {
+    VueSpinner,
   },
 
   methods: {
-    submitHandler() {
-      if (!this.username.trim()) return;
-      localStorage.setItem("username", this.username.trim());
-      this.$router.push("/chat");
+    // submitHandler() {
+    //   if (!this.username.trim()) return;
+    //   localStorage.setItem("username", this.username.trim());
+    //   this.$router.push("/chat");
+    // },
+
+    async register() {
+      try {
+        this.isLoading = true;
+        const response = await fetch("http://localhost:3000/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+          }),
+        });
+
+        const data = await response.json();
+        console.log(response);
+
+        if (response.status == 409 || response.status == 500) {
+          this.errorMessage = data.message || "Something wen't terribly wrong :(";
+          return;
+        }
+
+        this.$router.push({ name: "login", query: { message: data.message } });
+      } catch (error) {
+        console.error("error", error);
+      } finally {
+        this.isLoading = false;
+      }
     },
   },
 };

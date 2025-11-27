@@ -2,6 +2,8 @@ import express,  { Request, Response } from "express"
 import http from 'http'
 import { Server } from 'socket.io'
 import authRoute from './routes/auth.route'
+import morgan from 'morgan'
+import cors from 'cors'
 
 const app = express();
 const server = http.createServer(app)
@@ -9,10 +11,23 @@ const io = new Server(server, {
     cors: { origin: '*' }
 });
 
+app.use(morgan('dev'))
+app.use(cors({ origin: '*' }))
 app.use(express.json())
 app.use('/api/auth', authRoute);
 
 const users = new Map();
+
+
+// app.get('/api/users', async(req: Request, res: Response) => {
+//   try {
+//     const users = await prisma.user.findMany();
+//     res.status(200).json(users)
+//   } catch(error) {
+//     console.log(error)
+//   }
+// })
+
 
 // Socket Events
 io.on('connection', (socket) => {
@@ -47,5 +62,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(3000, () => {
-  console.log('Server running on port 3000');
+  console.log('Server running on  http://localhost:3000');
 });

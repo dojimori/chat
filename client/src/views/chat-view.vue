@@ -36,15 +36,15 @@
             <div class="flex flex-row flex-wrap gap-4">
               <img src="/def_pfp_2.jpg" width="36" height="28" class="object-cover" />
               <span
-                class="flex items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5 cursor-pointer message-box"
+                class="flex text-wrap items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5 cursor-pointer message-box max-w-[300px]"
+                v-html="renderMessage(data.message)"
               >
-                <span v-html="renderMessage(data.message)"> </span>
               </span>
             </div>
-            <p class="font-bold text-[#29487d] mt-2">
+            <!-- <p class="font-bold text-[#29487d] mt-2">
               <span class="mr-2">{{ data.username }}</span>
               <span class="text-gray-400 font-normal">{{ data.time }}</span>
-            </p>
+            </p> -->
           </div>
           <!-- joined message -->
           <!-- <div v-else-if="data.type == 'joined'" class="text-center"> -->
@@ -204,6 +204,7 @@ export default {
       });
       // this.messages.push(this.message)
       this.message = "";
+      this.showEmoji = false;
     },
 
     emojiHandler({ path, emoji }) {
@@ -229,8 +230,8 @@ export default {
         let imgEl = `<img src='${entry[1]}' alt='${entry[0]}' class='message-emoji'/>`;
         rendered = rendered.split(entry[0]).join(imgEl);
       });
-
-      return rendered;
+      console.log(`<span class='w-[300px] text-red text-wrap'>${rendered}</span>`);
+      return `<span class='w-[300px] text-red text-wrap'>${rendered}</span>`;
     },
 
     logout() {

@@ -5,7 +5,15 @@
     @submit.prevent="submitHandler"
   >
     <h4 class="text-lg">join chat</h4>
-    <div class="border w-full border-gray-300"></div>
+    <div class="border w-full border-gray-300 mb-4"></div>
+    <div class="flex items-center justify-center">
+      <span
+        v-motion-fade
+        v-if="queryMessage"
+        class="flex-1 bg-green-200 border border-green-300 p-2 text-green-800 shadow-inner"
+        >{{ queryMessage }}</span
+      >
+    </div>
 
     <div class="mt-4">
       <input
@@ -102,6 +110,12 @@ export default {
     return {
       username: "",
     };
+  },
+
+  computed: {
+    queryMessage() {
+      return this.$route.query.message;
+    },
   },
 
   methods: {
