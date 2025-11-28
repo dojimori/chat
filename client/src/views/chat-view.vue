@@ -174,8 +174,9 @@ img:hover {
 
 <script>
 import { ref, render } from "vue";
-import { socket } from "../utils/socket";
+import { socket } from "@/utils/socket";
 import EmojiPicker from "@/components/emoji-picker.vue";
+import { getMe } from "@/utils/user";
 
 export default {
   name: "ChatView",
@@ -246,8 +247,9 @@ export default {
       });
     },
   },
-  mounted() {
-    const user = JSON.parse(localStorage.getItem("user"));
+  async mounted() {
+    const { user } = await getMe();
+    console.log("user is ", user);
     socket.emit("join", user.username);
     socket.on("joined", (data) => {
       // console.log(data);
