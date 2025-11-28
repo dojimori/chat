@@ -9,11 +9,11 @@ const routes = [
     { 
         path: '/chat', 
         component: ChatView,
-        beforeEnter: (to, from, next) => {
-            const name = localStorage.getItem('username') 
-            if (!name) next ('/');
-            else next();
-        }
+        // beforeEnter: (to, from, next) => {
+        //     const name = localStorage.getItem('user') 
+        //     if (!name) next ('/');
+        //     else next();
+        // }
     },
 
 ];

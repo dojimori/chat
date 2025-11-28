@@ -39,11 +39,13 @@
         <vue-spinner v-if="isLoading" size="20"></vue-spinner>
         <span v-else class="font-bold tracking-wider">login</span>
       </button>
-      <button
-        class="text-[#29487d] w-full p-1.5 mt-2 shadow-inner border border-gray-200 cursor-pointer hover:scale-105 duration-200 transition-all ease-in"
-      >
-        <router-link to="/register"><span class="font-bold">register</span></router-link>
-      </button>
+      <router-link to="/register">
+        <button
+          class="text-[#29487d] w-full p-1.5 mt-2 shadow-inner border border-gray-200 cursor-pointer hover:scale-105 duration-200 transition-all ease-in"
+        >
+          <span class="font-bold">register</span>
+        </button>
+      </router-link>
     </div>
   </form>
 
@@ -144,6 +146,7 @@ export default {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ username: this.username, password: this.password }),
         });
 
@@ -155,10 +158,12 @@ export default {
         }
 
         // if (response.statusText == "OK") {
-        localStorage.setItem("user", JSON.stringify(data.user));
+        // localStorage.setItem("user", JSON.stringify(data.user));
         // }
 
-        this.$router.push("/chat");
+        if (response.statusText == "OK") {
+          this.$router.push("/chat");
+        }
       } catch (error) {
         console.error(error);
       } finally {

@@ -41,10 +41,10 @@
               >
               </span>
             </div>
-            <!-- <p class="font-bold text-[#29487d] mt-2">
+            <p class="font-bold text-[#29487d] mt-2">
               <span class="mr-2">{{ data.username }}</span>
               <span class="text-gray-400 font-normal">{{ data.time }}</span>
-            </p> -->
+            </p>
           </div>
           <!-- joined message -->
           <!-- <div v-else-if="data.type == 'joined'" class="text-center"> -->
@@ -235,7 +235,7 @@ export default {
     },
 
     logout() {
-      localStorage.removeItem("username");
+      localStorage.removeItem("user");
       this.$router.push("/");
     },
 
@@ -247,8 +247,8 @@ export default {
     },
   },
   mounted() {
-    const username = localStorage.getItem("username");
-    socket.emit("join", username);
+    const user = JSON.parse(localStorage.getItem("user"));
+    socket.emit("join", user.username);
     socket.on("joined", (data) => {
       // console.log(data);
       this.messages.push({

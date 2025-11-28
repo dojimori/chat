@@ -41,16 +41,16 @@
         <vue-spinner v-if="isLoading" size="20"></vue-spinner>
         <span v-else class="font-bold tracking-wider">register</span>
       </button>
-
-      <button
-        :disabled="isLoading"
-        class="text-[#29487d] w-full p-1.5 mt-2 shadow-inner border border-gray-200 cursor-pointer hover:scale-105 duration-200 transition-all ease-in flex items-center gap-2"
-      >
-        <i class="ph ph-arrow-left text-gray-600"></i>
-        <router-link to="/" class="flex-1 text-center">
-          <span class="font-bold">back</span></router-link
+      <router-link to="/" class="flex-1 text-center">
+        <button
+          :disabled="isLoading"
+          class="text-[#29487d] w-full p-1.5 mt-2 shadow-inner border border-gray-200 cursor-pointer hover:scale-105 duration-200 transition-all ease-in flex items-center gap-2"
         >
-      </button>
+          <i class="ph ph-arrow-left text-gray-600"></i>
+
+          <span class="font-bold">back</span>
+        </button>
+      </router-link>
     </div>
   </form>
 
