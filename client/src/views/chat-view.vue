@@ -307,8 +307,7 @@ export default {
     },
   },
   async mounted() {
-    const { user } = await getMe();
-    this.user = user;
+    this.user = await getMe();
 
     socket.emit("join", {
       username: this.user.username,

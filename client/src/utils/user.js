@@ -3,7 +3,7 @@ export const getMe = async() => {
         const response = await fetch('http://localhost:8080/api/users/getme', { credentials: "include" });
         const data = await response.json();        
 
-        return data;
+        return data.user;
     } catch(error) {
         console.log(error)
     }
