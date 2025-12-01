@@ -9,9 +9,7 @@ const routes = [
         path: '/', name: "login", 
         component: LoginView,
         beforeEnter: async (to, from, next) => {
-            // const name = localStorage.getItem('user') 
             const user = await getMe();
-            // if (!name) next ('/');
             if (user) next('/chat')
             else next();
         }
@@ -20,9 +18,7 @@ const routes = [
         path: '/register', 
         component: RegisterView,
         beforeEnter: async (to, from, next) => {
-            // const name = localStorage.getItem('user') 
             const user = await getMe();
-            // if (!name) next ('/');
             if (user) next('/chat')
             else next();
         }
@@ -31,9 +27,7 @@ const routes = [
         path: '/chat',
         component: ChatView,
         beforeEnter: async (to, from, next) => {
-            // const name = localStorage.getItem('user') 
             const user = await getMe();
-            // if (!name) next ('/');
             if (!user) next('')
             else next();
         }
@@ -42,9 +36,7 @@ const routes = [
         path: '/edit-profile',
         component: EditProfile,
         beforeEnter: async (to, from, next) => {
-            // const name = localStorage.getItem('user') 
             const user = await getMe();
-            // if (!name) next ('/');
             if (!user) next('')
             else next();
         }
