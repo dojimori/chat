@@ -5,10 +5,30 @@ import RegisterView from './views/register-view.vue';
 import { getMe } from './utils/user';
 import EditProfile from './views/edit-profile.vue';
 const routes = [
-    { path: '/', name: "login", component: LoginView },
-    { path: '/register', component: RegisterView },
-    { 
-        path: '/chat', 
+    {
+        path: '/', name: "login", 
+        component: LoginView,
+        beforeEnter: async (to, from, next) => {
+            // const name = localStorage.getItem('user') 
+            const user = await getMe();
+            // if (!name) next ('/');
+            if (user) next('/chat')
+            else next();
+        }
+    },
+    {
+        path: '/register', 
+        component: RegisterView,
+        beforeEnter: async (to, from, next) => {
+            // const name = localStorage.getItem('user') 
+            const user = await getMe();
+            // if (!name) next ('/');
+            if (user) next('/chat')
+            else next();
+        }
+    },
+    {
+        path: '/chat',
         component: ChatView,
         beforeEnter: async (to, from, next) => {
             // const name = localStorage.getItem('user') 
@@ -18,8 +38,8 @@ const routes = [
             else next();
         }
     },
-    { 
-        path: '/edit-profile', 
+    {
+        path: '/edit-profile',
         component: EditProfile,
         beforeEnter: async (to, from, next) => {
             // const name = localStorage.getItem('user') 
@@ -34,5 +54,5 @@ const routes = [
 
 export const router = createRouter({
     history: createWebHistory(),
-    routes 
+    routes
 })
