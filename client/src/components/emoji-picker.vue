@@ -4,7 +4,7 @@
       v-if="showEmoji"
       class="absolute bottom-full right-30 z-10 mb-2 bg-gray-100 rounded-xs border border-gray-200 p-4 w-[200px]"
     >
-      <div class="flex flex-row flex-wrap gap-5">
+      <div class="flex flex-row justify-center flex-wrap gap-5">
         <div v-for="emoji in availableEmojis">
           <button type="button" @click="clickHandler(emoji)">
             <img :src="emoji.path" alt="" class="emoji" />
