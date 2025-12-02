@@ -33,7 +33,7 @@ const routes = [
         }
     },
     {
-        path: '/edit-profile',
+        path: '/profile/edit',
         component: EditProfile,
         beforeEnter: async (to, from, next) => {
             const user = await getMe();
