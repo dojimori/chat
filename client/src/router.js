@@ -2,14 +2,16 @@ import { createWebHistory, createRouter } from 'vue-router'
 import LoginView from './views/login-view.vue';
 import ChatView from './views/chat-view.vue';
 import RegisterView from './views/register-view.vue';
-import { getMe } from './utils/user';
+// import { getMe } from './utils/api/user.api';
+import userApi from './utils/api/user.api';
+
 import EditProfile from './views/edit-profile.vue';
 const routes = [
     {
         path: '/', name: "login", 
         component: LoginView,
         beforeEnter: async (to, from, next) => {
-            const user = await getMe();
+            const user = await userApi.getMe();
             console.log(user)
             if (user) next('/chat')
             else next();
@@ -19,7 +21,7 @@ const routes = [
         path: '/register', 
         component: RegisterView,
         beforeEnter: async (to, from, next) => {
-            const user = await getMe();
+            const user = await userApi.getMe();
             if (user) next('/chat')
             else next();
         }
@@ -28,7 +30,7 @@ const routes = [
         path: '/chat',
         component: ChatView,
         beforeEnter: async (to, from, next) => {
-            const user = await getMe();
+            const user = await userApi.getMe();
             if (!user) next('')
             else next();
         }
@@ -37,7 +39,7 @@ const routes = [
         path: '/profile/edit',
         component: EditProfile,
         beforeEnter: async (to, from, next) => {
-            const user = await getMe();
+            const user = await userApi.getMe();
             if (!user) next('')
             else next();
         }

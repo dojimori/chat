@@ -114,7 +114,7 @@ input:focus {
 
 <script>
 import { VueSpinner } from "vue3-spinners";
-import api from "@/utils/api.js";
+import api from "@/utils/api";
 
 export default {
   name: "RegisterView",

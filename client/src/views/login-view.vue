@@ -115,6 +115,8 @@ input:focus {
 
 <script>
 import { VueSpinner } from "vue3-spinners";
+import authApi from "@/utils/api/auth.api";
+
 export default {
   name: "LoginView",
   components: {
@@ -145,16 +147,19 @@ export default {
     async login() {
       try {
         this.isLoading = true;
-        const response = await fetch("http://localhost:8080/api/auth/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ username: this.username, password: this.password }),
-        });
+        // const response = await fetch("http://localhost:8080/api/auth/login", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   credentials: "include",
+        //   body: JSON.stringify({ username: this.username, password: this.password }),
+        // });
 
-        const data = await response.json();
+        const response = await authApi.login(username, password);
+
+        // const data = await response.json();
+        const { data } = response;
 
         if (response.status == 409 || response.status == 500) {
           this.errorMessage = data.message;

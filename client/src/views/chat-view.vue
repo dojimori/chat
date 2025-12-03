@@ -208,11 +208,13 @@ img:hover {
 import { ref, render, Transition } from "vue";
 import { socket } from "@/utils/socket";
 import EmojiPicker from "@/components/emoji-picker.vue";
-import { getMe } from "@/utils/user";
+import userApi from "@/utils/api/user.api";
 import { emojis } from "@/utils/emojis";
 import ActiveUsers from "@/components/active-users.vue";
 import UserInformation from "@/components/user-information.vue";
 import { PhSignOut, PhPaperPlaneRight } from "@phosphor-icons/vue";
+// import api from "@/utils/api/";
+import authApi from "@/utils/api/auth.api";
 
 export default {
   name: "ChatView",
@@ -241,7 +243,6 @@ export default {
   methods: {
     async sendMessage() {
       // TODO: replace to communicate with an API later
-
       if (this.message.trim() == "") return;
 
       socket.emit("chat:message", {
@@ -292,10 +293,12 @@ export default {
 
     async logout() {
       // localStorage.removeItem("user");
-      await fetch("http://localhost:8080/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
+      // await fetch("http://localhost:8080/api/auth/logout", {
+      //   method: "POST",
+      //   credentials: "include",
+      // });
+
+      await authApi.logout();
 
       socket.emit("left");
 
@@ -310,7 +313,7 @@ export default {
     },
   },
   async mounted() {
-    this.user = await getMe();
+    this.user = await userApi.getMe();
 
     socket.emit("join", {
       username: this.user.username,

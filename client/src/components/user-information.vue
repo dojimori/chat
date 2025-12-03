@@ -86,7 +86,7 @@
 </style>
 
 <script>
-import { getMe } from "@/utils/user";
+import userApi from "@/utils/api/user.api";
 // import { PhPencilSimple } from "@phosphor-icons";
 import { PhPencilSimple } from "@phosphor-icons/vue";
 
@@ -102,7 +102,7 @@ export default {
   },
 
   async mounted() {
-    this.user = await getMe();
+    this.user = await userApi.getMe();
   },
 };
 </script>

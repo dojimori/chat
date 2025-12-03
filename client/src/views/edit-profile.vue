@@ -47,7 +47,7 @@
 
 <script>
 import { PhArrowBendDownLeft, PhFloppyDisk } from "@phosphor-icons/vue";
-import { getMe } from "@/utils/user";
+import userApi from "@/utils/api/user.api";
 export default {
   components: { PhArrowBendDownLeft, PhFloppyDisk },
   data() {
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     async fetchUser() {
-      this.user = await getMe();
+      this.user = await userApi.getMe();
     },
   },
   mounted() {
