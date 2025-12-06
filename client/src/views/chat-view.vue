@@ -1,120 +1,127 @@
 <template>
   <!-- main window -->
-  <div class="flex flex-col md:flex-row justify-center gap-2 w-full mx-auto p-4">
-    <user-information></user-information>
-    <!-- Chat Section -->
-    <div class="flex-1 bg-white shadow-lg shadow-blue-100 w-[700px] h-[700px] flex">
-      <!-- chat box -->
-      <div
-        v-motion
-        :initial="{ opacity: 0 }"
-        :enter="{ opacity: 1 }"
-        :duration="300"
-        class="shadow-xl flex-1 flex flex-col justify-between"
-      >
-        <!-- chat header -->
-        <div
-          class="text-center border-b border-gray-300 py-2 flex items-center justify-between px-2"
-        >
-          <h2 class="font-bold text-[#29487d]">Open Line</h2>
-          <button
-            @click="logout"
-            class="bg-slate-100 px-3 py-1.5 border border-slate-400 text-[#29487d] font-bold cursor-pointer flex items-center gap-2 hover:bg-slate-200 hover:translate-y-[-3px] duration-200"
-          >
-            <ph-sign-out></ph-sign-out>
-            Logout
-          </button>
-        </div>
-
-        <!-- chat-body -->
-        <div class="p-2 flex-1 flex flex-col gap-3 overflow-y-scroll" ref="chatBox">
-          <div
-            v-motion
-            :initial="{ opacity: 0, x: -50 }"
-            :enter="{ opacity: 1, x: 0 }"
-            :duration="400"
-            v-for="(data, index) in messages"
-            :key="index"
-            class="flex flex-col p-1.5 gap-1"
-          >
-            <!-- chat message -->
-            <div v-if="data.type == 'chat'">
-              <div class="flex flex-row flex-wrap gap-4">
-                <img src="/def_pfp_6.jpg" class="pfp" />
-                <span
-                  class="flex break-all items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5 cursor-pointer message-box max-w-[300px]"
-                  v-html="renderMessage(data.message)"
-                >
-                </span>
-              </div>
-              <p
-                :class="[
-                  'font-bold text-[#29487d] mt-2',
-                  { 'text-green-600': data.userId == user.id },
-                ]"
-              >
-                <small class="mr-2">{{
-                  data.userId == user.id ? "You" : data.username
-                }}</small>
-                <small class="text-gray-400 font-light">{{ data.time }}</small>
-              </p>
-            </div>
-            <!-- joined message -->
-            <div v-else class="text-center">
-              <small class="text-gray-600">{{ data.message }}</small>
-            </div>
-          </div>
-        </div>
-
-        <!-- chat actions -->
-        <form
-          class="flex gap-2 p-2 bg-gray-100 border-t-2 border-gray-200 relative"
-          @submit.prevent="sendMessage"
-        >
-          <span
-            v-motion
-            :initial="{ opacity: 0 }"
-            :enter="{ opacity: 1 }"
-            :leave="{ opacity: 0 }"
-            v-if="isTyping"
-            class="w-full text-center text-gray-500 absolute bottom-full"
-          >
-            <small>{{ typingText }}</small>
-          </span>
-          <input
-            v-model="message"
-            ref="messageInput"
-            placeholder="Type a message..."
-            type="text"
-            @input="onTyping"
-            @blur="onStopTyping"
-            class="flex-1 shadow-inner outline-none border border-gray-200 p-2 text-sm bg-gray-50 rounded-xs"
-          />
-
-          <emoji-picker
-            :showEmoji="showEmoji"
-            @emoji-selected="emojiHandler"
-          ></emoji-picker>
-
-          <button
-            type="button"
-            @click="showEmoji = !showEmoji"
-            class="emoji-btn text-xs cursor-pointer text-gray-600 mx-2"
-          >
-            <i class="ph ph-smiley text-lg"></i>
-          </button>
-
-          <button
-            type="submit"
-            class="send-btn font-bold cursor-pointer text-white px-4 py-2 shadow-inner border border-slate-800 hover:opacity-90 hover:translate-y-[-3px] duration-200"
-          >
-            <ph-paper-plane-right :size="14" weight="fill"></ph-paper-plane-right>
-          </button>
-        </form>
-      </div>
+  <div class="flex flex-col gap-0 border border-gray-400">
+    <!-- header -->
+    <div class="bg-[#3b5998] w-full py-2.5 px-4">
+      <h1 class="text-white font-bold">> Open Line</h1>
     </div>
 
-    <active-users></active-users>
+    <div class="flex flex-col md:flex-row justify-center w-full mx-auto">
+      <user-information></user-information>
+      <!-- Chat Section -->
+      <div class="flex-1 bg-white w-full h-[660px] flex">
+        <!-- chat box -->
+        <div
+          v-motion
+          :initial="{ opacity: 0 }"
+          :enter="{ opacity: 1 }"
+          :duration="300"
+          class="flex-1 flex flex-col justify-between"
+        >
+          <!-- chat header -->
+          <!-- <div
+            class="text-center border-b border-gray-300 py-2 flex items-center justify-between px-2"
+          >
+            <h2 class="font-bold text-[#29487d]">Open Line</h2>
+            <button
+              @click="logout"
+              class="bg-slate-100 px-3 py-1.5 border border-slate-400 text-[#29487d] font-bold cursor-pointer flex items-center gap-2 hover:bg-slate-200 hover:translate-y-[-3px] duration-200"
+            >
+              <ph-sign-out></ph-sign-out>
+              Logout
+            </button>
+          </div> -->
+
+          <!-- chat-body -->
+          <div class="p-2 flex-1 flex flex-col gap-3 overflow-y-scroll" ref="chatBox">
+            <div
+              v-motion
+              :initial="{ opacity: 0, x: -50 }"
+              :enter="{ opacity: 1, x: 0 }"
+              :duration="400"
+              v-for="(data, index) in messages"
+              :key="index"
+              class="flex flex-col p-1.5 gap-1"
+            >
+              <!-- chat message -->
+              <div v-if="data.type == 'chat'">
+                <div class="flex flex-row flex-wrap gap-4">
+                  <img src="/def_pfp_6.jpg" class="pfp" />
+                  <span
+                    class="flex break-all items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5 cursor-pointer message-box max-w-[300px]"
+                    v-html="renderMessage(data.message)"
+                  >
+                  </span>
+                </div>
+                <p
+                  :class="[
+                    'font-bold text-[#29487d] mt-2',
+                    { 'text-green-600': data.userId == user.id },
+                  ]"
+                >
+                  <small class="mr-2">{{
+                    data.userId == user.id ? "You" : data.username
+                  }}</small>
+                  <small class="text-gray-400 font-light">{{ data.time }}</small>
+                </p>
+              </div>
+              <!-- joined message -->
+              <div v-else class="text-center">
+                <small class="text-gray-600">{{ data.message }}</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- chat actions -->
+          <form
+            class="flex gap-2 p-2 bg-gray-100 border-t-2 border-gray-200 relative"
+            @submit.prevent="sendMessage"
+          >
+            <span
+              v-motion
+              :initial="{ opacity: 0 }"
+              :enter="{ opacity: 1 }"
+              :leave="{ opacity: 0 }"
+              v-if="isTyping"
+              class="w-full text-center text-gray-500 absolute bottom-full"
+            >
+              <small>{{ typingText }}</small>
+            </span>
+            <input
+              v-model="message"
+              ref="messageInput"
+              placeholder="Type a message..."
+              type="text"
+              @input="onTyping"
+              @blur="onStopTyping"
+              class="flex-1 shadow-inner outline-none border border-gray-200 p-2 text-sm bg-gray-50 rounded-xs"
+            />
+
+            <emoji-picker
+              :showEmoji="showEmoji"
+              @emoji-selected="emojiHandler"
+            ></emoji-picker>
+
+            <button
+              type="button"
+              @click="showEmoji = !showEmoji"
+              class="emoji-btn text-xs cursor-pointer text-gray-600 mx-2"
+            >
+              <i class="ph ph-smiley text-lg"></i>
+            </button>
+
+            <button
+              type="submit"
+              class="send-btn font-bold cursor-pointer text-white px-4 py-2 shadow-inner border border-slate-800 hover:opacity-90 hover:translate-y-[-3px] duration-200"
+            >
+              <ph-paper-plane-right :size="14" weight="fill"></ph-paper-plane-right>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <active-users></active-users>
+    </div>
   </div>
 </template>
 

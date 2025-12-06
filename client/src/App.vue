@@ -42,6 +42,6 @@ body {
   font-size: 14px;
   min-height: 100vh;
   margin: 0;
-  /* padding: 20px; */
+  padding: 20px;
 }
 </style>
