@@ -72,7 +72,7 @@
               v-model="aboutMe"
               class="border w-full border-gray-400 outline-none p-2 shadow-inner focus:shadow-none"
             ></textarea>
-            <small>(max 200 characters)</small>
+            <small class="text-gray-500">(max 200 characters)</small>
           </div>
           <!-- gemder -->
           <div>
@@ -113,7 +113,7 @@
               v-model="likes"
               class="border w-full border-gray-400 outline-none p-2 shadow-inner focus:shadow-none"
             ></textarea>
-            <small>(max 200 characters)</small>
+            <small class="text-gray-500">(max 200 characters)</small>
           </div>
 
           <!-- dislikes -->
@@ -125,7 +125,7 @@
               v-model="dislikes"
               class="border w-full border-gray-400 outline-none p-2 shadow-inner focus:shadow-none"
             ></textarea>
-            <small>(max 200 characters)</small>
+            <small class="text-gray-500">(max 200 characters)</small>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
   <!-- header -->
-  <div class="header w-full py-2.5 px-4 flex flex-row justify-between">
+  <div class="header w-full py-2.5 px-4 flex flex-row justify-between items-center">
     <h1 class="text-white font-bold">> Open Line</h1>
 
     <div>

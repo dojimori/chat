@@ -1,6 +1,6 @@
 <template>
   <!-- Users List Section -->
-  <div class="bg-white border border-gray-200 shadow-lg md:w-[250px] w-full">
+  <div class="bg-white shadow-lg md:w-[170px]">
     <div>
       <h2 class="header p-2 font-bold text-white text-center">Active Users</h2>
       <div class="flex flex-col">
