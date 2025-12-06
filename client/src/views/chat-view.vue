@@ -2,8 +2,26 @@
   <!-- main window -->
   <div class="flex flex-col gap-0 border border-gray-400">
     <!-- header -->
-    <div class="bg-[#3b5998] w-full py-2.5 px-4">
+    <div class="header w-full py-2.5 px-4 flex flex-row justify-between">
       <h1 class="text-white font-bold">> Open Line</h1>
+
+      <div>
+        <router-link
+          to="/profile/edit"
+          class="header-btn hover:translate-y-[-1.5px] cursor-pointer"
+        >
+          <ph-pencil-simple></ph-pencil-simple>
+          edit profile
+        </router-link>
+
+        <button
+          class="header-btn hover:translate-y-[-1.5px] cursor-pointer"
+          @click="logout"
+        >
+          <ph-sign-out></ph-sign-out>
+          Logout
+        </button>
+      </div>
     </div>
 
     <div class="flex flex-col md:flex-row justify-center w-full mx-auto">
@@ -156,6 +174,35 @@ input {
   background: linear-gradient(rgb(98, 122, 173), rgb(89, 114, 168));
 }
 
+.header-btn {
+  font-size: 11px;
+  color: rgb(255, 255, 255);
+  margin-left: 0px;
+  margin-right: 4px;
+  font-weight: bold;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
+  text-shadow: rgba(0, 0, 0, 0.3) 0px -1px 0px;
+  display: inline-flex;
+  align-items: center;
+  transition: 0.2s;
+  padding: 5px 12px;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.2);
+  border-image: initial;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.header-btn:hover {
+  background: linear-gradient(to bottom, #728ac1, #627aad);
+}
+
 input {
   animation: default 0.3s forwards;
 }
@@ -174,6 +221,10 @@ img {
 img:hover {
   scale: 1.05;
   /* transform: rotate(-15deg); */
+}
+
+.header {
+  background: linear-gradient(to bottom, #4e69a2, #3b5998);
 }
 
 .message-box {
@@ -221,7 +272,7 @@ import userApi from "@/utils/api/user.api";
 import { emojis } from "@/utils/emojis";
 import ActiveUsers from "@/components/active-users.vue";
 import UserInformation from "@/components/user-information.vue";
-import { PhSignOut, PhPaperPlaneRight } from "@phosphor-icons/vue";
+import { PhSignOut, PhPaperPlaneRight, PhPencilSimple } from "@phosphor-icons/vue";
 // import api from "@/utils/api/";
 import authApi from "@/utils/api/auth.api";
 
@@ -233,6 +284,7 @@ export default {
     UserInformation,
     PhSignOut,
     PhPaperPlaneRight,
+    PhPencilSimple,
   },
   data() {
     return {
