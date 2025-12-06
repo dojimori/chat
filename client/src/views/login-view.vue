@@ -5,12 +5,12 @@
     @submit.prevent="login"
   >
     <h4 class="text-lg">join chat</h4>
-    <div class="border w-full border-gray-300 mb-4"></div>
+    <div class="border w-full border-gray-300"></div>
     <div class="flex items-center justify-center">
       <span
         v-motion-fade
         v-if="errorMessage"
-        class="flex-1 bg-red-100 border border-red-300-300 p-2 text-red-800 shadow-inner"
+        class="flex-1 bg-red-100 border border-red-300-300 p-2 text-red-800 shadow-inner my-2"
         >{{ errorMessage }}</span
       >
       <span
@@ -156,24 +156,14 @@ export default {
         //   body: JSON.stringify({ username: this.username, password: this.password }),
         // });
 
-        const response = await authApi.login(this.username, this.password);
-
-        // const data = await response.json();
-        const { data } = response;
-
-        if (response.status == 409 || response.status == 500) {
-          this.errorMessage = data.message;
-        }
+        await authApi.login(this.username, this.password);
 
         // if (response.statusText == "OK") {
-        // localStorage.setItem("user", JSON.stringify(data.user));
+        this.$router.push("/chat");
         // }
-
-        if (response.statusText == "OK") {
-          this.$router.push("/chat");
-        }
       } catch (error) {
         console.error(error);
+        this.errorMessage = error.response.data.message || "Something went wrong.";
       } finally {
         this.isLoading = false;
       }

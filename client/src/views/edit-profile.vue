@@ -11,6 +11,7 @@
 
       <button
         style="background: linear-gradient(rgb(98, 122, 173), rgb(89, 114, 168))"
+        @click="saveHandler"
         class="bg-[#29487d] text-white px-3 py-1.5 border border-slate-400 font-bold cursor-pointer flex items-center gap-2 hover:translate-y-[-1.5px] duration-200"
       >
         <ph-floppy-disk></ph-floppy-disk>
@@ -76,7 +77,7 @@
             v-model="gender"
             class="border w-full border-gray-400 outline-none p-2 shadow-inner focus:shadow-none"
           >
-            <option value="" selected disabled>----- please select -----</option>
+            <option value="" disabled selected>----- please select -----</option>
             <option value="">male</option>
             <option value="">female</option>
             <option value="">other</option>
@@ -92,7 +93,7 @@
             v-model="country"
             class="border w-full border-gray-400 outline-none p-2 shadow-inner focus:shadow-none"
           >
-            <option value="" selected disabled>----- please select -----</option>
+            <option value="" disabled selected>----- please select -----</option>
             <option v-for="country in countries" :value="country">{{ country }}</option>
           </select>
         </div>
@@ -129,6 +130,7 @@
 // TODO (PRIORITY): IMPLEMENT CROPPER JS FOR PROFILE PICTURE
 import { PhArrowBendDownLeft, PhFloppyDisk } from "@phosphor-icons/vue";
 import userApi from "@/utils/api/user.api";
+
 export default {
   components: { PhArrowBendDownLeft, PhFloppyDisk },
   data() {
@@ -202,6 +204,20 @@ export default {
 
     fileHandler(e) {
       this.imageFile = e.target.files[0];
+    },
+
+    async saveHandler() {
+      const formData = new FormData();
+      formData.append("imageFile", this.imageFile);
+      formData.append("username", this.username);
+      formData.append("displayName", this.displayName);
+      formData.append("aboutMe", this.aboutMe);
+      formData.append("gender", this.gender);
+      formData.append("country", this.country);
+      formData.append("likes", this.likes);
+      formData.append("dislikes", this.dislikes);
+
+      await userApi.updateProfile(formData);
     },
   },
   mounted() {
