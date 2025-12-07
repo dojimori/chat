@@ -83,7 +83,7 @@
               v-model="gender"
               class="border w-full border-gray-400 outline-none p-2 shadow-inner focus:shadow-none"
             >
-              <option value="" disabled selected>----- please select -----</option>
+              <option disabled selected>----- please select -----</option>
               <option value="Male">male</option>
               <option value="Female">female</option>
               <option value="Other">other</option>
@@ -99,7 +99,7 @@
               v-model="country"
               class="border w-full border-gray-400 outline-none p-2 shadow-inner focus:shadow-none"
             >
-              <option value="" disabled selected>----- please select -----</option>
+              <option disabled selected>----- please select -----</option>
               <option v-for="country in countries" :value="country">{{ country }}</option>
             </select>
           </div>
@@ -202,14 +202,14 @@ export default {
         "Vietnam",
         "Yemen",
       ],
-      username: null,
-      imageFile: null,
-      displayName: null,
-      aboutMe: null,
-      gender: null,
-      country: null,
-      likes: null,
-      dislikes: null,
+      username: "", // instead of null
+      imageFile: null, // this one is fine as null
+      displayName: "",
+      aboutMe: "",
+      gender: "",
+      country: "",
+      likes: "",
+      dislikes: "",
     };
   },
   components: {
@@ -231,14 +231,14 @@ export default {
     async saveHandler() {
       alert("processing");
       const formData = new FormData();
-      formData.append("imageFile", this.imageFile);
-      formData.append("username", this.username);
-      formData.append("displayName", this.displayName);
-      formData.append("aboutMe", this.aboutMe);
-      formData.append("gender", this.gender);
-      formData.append("country", this.country);
-      formData.append("likes", this.likes);
-      formData.append("dislikes", this.dislikes);
+      if (this.imageFile) formData.append("imageFile", this.imageFile);
+      if (this.username) formData.append("username", this.username);
+      if (this.displayName) formData.append("displayName", this.displayName);
+      if (this.aboutMe) formData.append("aboutMe", this.aboutMe);
+      if (this.gender) formData.append("gender", this.gender);
+      if (this.country) formData.append("country", this.country);
+      if (this.likes) formData.append("likes", this.likes);
+      if (this.dislikes) formData.append("dislikes", this.dislikes);
 
       await userApi.updateProfile(formData);
     },

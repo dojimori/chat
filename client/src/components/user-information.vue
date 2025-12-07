@@ -29,43 +29,53 @@
         <!-- gender -->
         <div class="flex justify-between">
           <span class="font-bold text-gray-600">gender</span>
-          <span v-if="!user.profile.gender">-</span>
+          <span v-if="!user.profile.gender || user.profile.gender == 'null'">-</span>
           <span v-else>{{ user.profile.gender }}</span>
         </div>
 
         <!-- country -->
         <div class="flex justify-between">
           <span class="font-bold text-gray-600">country</span>
-          <span v-if="!user.profile.country || user.profile.country != null">-</span>
+          <span v-if="!user.profile.country || user.profile.country == 'null'">-</span>
           <span v-else>{{ user.profile.country }}</span>
         </div>
 
         <!-- relationships -->
         <div class="flex justify-between">
           <span class="font-bold text-gray-600">relationship</span>
-          <span v-if="!user.profile.relationship">-</span>
+          <span v-if="!user.profile.relationship || user.profile.relationship == 'null'"
+            >-</span
+          >
           <span v-else>{{ user.profile.relationship }}</span>
         </div>
 
         <!-- interested in -->
         <div class="flex justify-between">
           <span class="font-bold text-gray-600">interested in</span>
-          <span v-if="!user.profile.interests || user.profile.interests != null">-</span>
+          <span v-if="!user.profile.interests || user.profile.interests == 'null'"
+            >-</span
+          >
           <span v-else>{{ user.profile.interests }}</span>
         </div>
 
         <!-- likes -->
-        <div class="flex justify-between">
+        <div :class="['flex justify-between', { 'flex-col gap-2': user.profile.likes }]">
           <span class="font-bold text-gray-600">likes</span>
-          <span v-if="!user.profile.likes || user.profile.likes != null">-</span>
-          <span v-else>{{ user.profile.likes }}</span>
+          <span v-if="!user.profile.likes">-</span>
+          <span v-else class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm">{{
+            user.profile.likes
+          }}</span>
         </div>
 
         <!-- dislikes -->
-        <div class="flex justify-between">
+        <div
+          :class="['flex justify-between', { 'flex-col gap-2': user.profile.dislikes }]"
+        >
           <span class="font-bold text-gray-600">dislikes</span>
-          <span v-if="!user.profile.dislikes || user.profile.dislikes != null">-</span>
-          <span v-else>{{ user.profile.dislikes }}</span>
+          <span v-if="!user.profile.dislikes">-</span>
+          <span v-else class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm">{{
+            user.profile.dislikes
+          }}</span>
         </div>
       </div>
     </div>
