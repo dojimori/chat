@@ -92,7 +92,8 @@ export default {
   },
 
   async mounted() {
-    this.user = await userApi.getMe();
+    // this.user = await userApi.getMe();
+    this.user = this.$store.state.user;
   },
 };
 </script>

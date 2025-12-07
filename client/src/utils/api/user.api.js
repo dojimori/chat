@@ -4,13 +4,12 @@ export default {
     async getMe() {
         try {
             const response = await api.get('/users/getme');
-            const { user } = response.data;
+            const { fetchedUser } = response.data;
 
             if (response.status == 404) {
                 return null;
             }
-
-            return user;
+            return fetchedUser;
         } catch (error) {
             console.error(error)
         }

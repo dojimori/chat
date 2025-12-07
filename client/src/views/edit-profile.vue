@@ -219,7 +219,8 @@ export default {
   },
   methods: {
     async fetchUser() {
-      const user = await userApi.getMe();
+      // const user = await userApi.getMe();
+      const user = this.$store.state.user;
       this.username = user.username;
     },
 

@@ -73,3 +73,13 @@ body {
   background: linear-gradient(to bottom, #728ac1, #627aad);
 }
 </style>
+
+<script>
+export default {
+  mounted() {
+    this.$store.dispatch("fetchUser");
+
+    console.log("from app", this.$store.state.user);
+  },
+};
+</script>

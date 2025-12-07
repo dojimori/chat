@@ -324,12 +324,14 @@ export default {
     },
   },
   async mounted() {
-    this.user = await userApi.getMe();
+    // this.user = await userApi.getMe();
+    this.user = this.$store.state.user;
 
     socket.emit("join", {
       username: this.user.username,
       id: this.user.id,
     });
+
     socket.on("joined", (data) => {
       this.messages.push({
         message: data,
