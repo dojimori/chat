@@ -8,7 +8,7 @@ const router = express.Router();
 const upload = multer({ dest: 'uploads/'})
 
 router.get('/getme', getMe);
-router.post('/profile/update', upload.single('file'), updateProfile);
+router.post('/profile/update', upload.single('profile'), updateProfile);
 
 
 export default router;
