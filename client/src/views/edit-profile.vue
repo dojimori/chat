@@ -28,6 +28,14 @@
         <h2 class="font-bold text-[#29487d] text-end">edit profile</h2>
       </div>
 
+      <div
+        v-motion-fade
+        v-if="isUpdateSuccessful"
+        class="w-full p-4 bg-green-50 text-green-800 rounded-xs border border-green-500 mt-2"
+      >
+        <h4>Profile updated successfully.</h4>
+      </div>
+
       <!-- form -->
       <div class="flex flex-col justify-center mt-2">
         <div class="w-full flex justify-between gap-8 items-center">
@@ -138,6 +146,7 @@
 .header {
   background: linear-gradient(to bottom, #4e69a2, #3b5998);
 }
+
 * {
   font-size: 12px;
 }
@@ -212,6 +221,7 @@ export default {
       country: "",
       likes: "",
       dislikes: "",
+      isUpdateSuccessful: false,
     };
   },
   components: {
@@ -237,18 +247,25 @@ export default {
     },
 
     async saveHandler() {
-      const formData = new FormData();
-      if (this.imageFile) formData.append("imageFile", this.imageFile);
-      if (this.username) formData.append("username", this.username);
-      if (this.displayName) formData.append("displayName", this.displayName);
-      if (this.aboutMe) formData.append("aboutMe", this.aboutMe);
-      if (this.gender) formData.append("gender", this.gender);
-      if (this.country) formData.append("country", this.country);
-      if (this.likes) formData.append("likes", this.likes);
-      if (this.dislikes) formData.append("dislikes", this.dislikes);
+      try {
+        this.isUpdateSuccessful = false;
+        const formData = new FormData();
+        if (this.imageFile) formData.append("imageFile", this.imageFile);
+        if (this.username) formData.append("username", this.username);
+        if (this.displayName) formData.append("displayName", this.displayName);
+        if (this.aboutMe) formData.append("aboutMe", this.aboutMe);
+        if (this.gender) formData.append("gender", this.gender);
+        if (this.country) formData.append("country", this.country);
+        if (this.likes) formData.append("likes", this.likes);
+        if (this.dislikes) formData.append("dislikes", this.dislikes);
 
-      // await userApi.updateProfile(formData);
-      this.store.updateUser(formData);
+        // await userApi.updateProfile(formData);
+        await this.store.updateUser(formData);
+        this.isUpdateSuccessful = true;
+      } catch (error) {
+        console.error(error);
+        this.isUpdateSuccessful = false;
+      }
     },
   },
   mounted() {
