@@ -40,7 +40,7 @@
       <div class="flex flex-col justify-center mt-2">
         <div class="w-full flex justify-between gap-8 items-center">
           <img
-            :src="imagePreview || '/def_pfp_1.jpg'"
+            :src="imagePreview || ''"
             alt=""
             class="object-cover w-30 h-30 border-3 border-gray-400"
           />
@@ -227,6 +227,7 @@ export default {
       dislikes: "",
       isUpdateSuccessful: false,
       imagePreview: null,
+      userProfilePicture: null,
     };
   },
   components: {
@@ -245,6 +246,8 @@ export default {
     async fetchUser() {
       const user = this.store.getUser;
       this.username = user.username;
+      this.userProfilePicture = user.profile.profilePicture;
+      console.log(user);
     },
 
     fileHandler(e) {
