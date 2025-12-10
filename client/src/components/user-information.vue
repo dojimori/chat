@@ -8,7 +8,7 @@
       <!-- pfp -->
       <img
         :src="
-          user.profile.profilePicture
+          user.profile && user.profile.profilePicture
             ? `http://localhost:8080${user.profile.profilePicture}`
             : '/def_pfp_6.jpg'
         "
@@ -36,52 +36,48 @@
         <!-- gender -->
         <div class="flex justify-between">
           <span class="font-bold text-gray-600">gender</span>
-          <span v-if="!user.profile.gender || user.profile.gender == 'null'">-</span>
+          <span v-if="!user.profile?.gender">-</span>
           <span v-else>{{ user.profile.gender }}</span>
         </div>
 
         <!-- country -->
         <div class="flex justify-between">
           <span class="font-bold text-gray-600">country</span>
-          <span v-if="!user.profile.country || user.profile.country == 'null'">-</span>
+          <span v-if="!user.profile?.country">-</span>
           <span v-else>{{ user.profile.country }}</span>
         </div>
 
         <!-- relationships -->
         <div class="flex justify-between">
           <span class="font-bold text-gray-600">relationship</span>
-          <span v-if="!user.profile.relationship || user.profile.relationship == 'null'"
-            >-</span
-          >
+          <span v-if="!user.profile?.relationship">-</span>
           <span v-else>{{ user.profile.relationship }}</span>
         </div>
 
         <!-- interested in -->
         <div class="flex justify-between">
           <span class="font-bold text-gray-600">interested in</span>
-          <span v-if="!user.profile.interests || user.profile.interests == 'null'"
-            >-</span
-          >
+          <span v-if="!user.profile?.interests">-</span>
           <span v-else>{{ user.profile.interests }}</span>
         </div>
 
         <!-- likes -->
-        <div :class="['flex justify-between', { 'flex-col gap-2': user.profile.likes }]">
+        <div :class="['flex justify-between', { 'flex-col gap-2': user.profile?.likes }]">
           <span class="font-bold text-gray-600">likes</span>
-          <span v-if="!user.profile.likes">-</span>
+          <span v-if="!user.profile?.likes">-</span>
           <span
             v-else
             class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 cursor-pointer duration-150"
-            >{{ user.profile.likes }}</span
+            >{{ user.profile?.likes }}</span
           >
         </div>
 
         <!-- dislikes -->
         <div
-          :class="['flex justify-between', { 'flex-col gap-2': user.profile.dislikes }]"
+          :class="['flex justify-between', { 'flex-col gap-2': user.profile?.dislikes }]"
         >
           <span class="font-bold text-gray-600">dislikes</span>
-          <span v-if="!user.profile.dislikes">-</span>
+          <span v-if="!user.profile?.dislikes">-</span>
           <span
             v-else
             class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 cursor-pointer duration-150"
