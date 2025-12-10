@@ -153,7 +153,6 @@ export default {
         // });
 
         const { data } = await authApi.register(this.username, this.password);
-
         // const data = await response.json();
         // const { data } = response;
         // console.log(response);
@@ -165,7 +164,7 @@ export default {
         this.$router.push({ name: "login", query: { message: data.message } });
       } catch (error) {
         this.errorMessage =
-          error.response.data.message || "Something wen't terribly wrong :(";
+          error.response?.data?.message || "Something wen't terribly wrong :(";
         console.error("error", error);
       } finally {
         this.isLoading = false;
