@@ -16,7 +16,7 @@
       />
       <!-- username -->
       <h1 class="mt-4 font-bold">
-        {{ user.username }}
+        {{ user.profile?.displayName || user.username }}
         <small class="block font-normal text-gray-600">@{{ user.username }}</small>
       </h1>
       <!-- bio -->
