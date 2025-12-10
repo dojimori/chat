@@ -40,7 +40,13 @@
       <div class="flex flex-col justify-center mt-2">
         <div class="w-full flex justify-between gap-8 items-center">
           <img
-            :src="imagePreview || `http://localhost:8080${userProfilePicture}`"
+            :src="
+              imagePreview
+                ? imagePreview
+                : userProfilePicture
+                ? `http://localhost:8080${userProfilePicture}`
+                : '/def_pfp_6.jpg'
+            "
             alt=""
             class="object-cover w-30 h-30 border-3 border-gray-400"
           />
