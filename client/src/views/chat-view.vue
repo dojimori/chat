@@ -42,7 +42,15 @@
               <!-- chat message -->
               <div v-if="data.type == 'chat'">
                 <div class="flex flex-row flex-wrap gap-4">
-                  <img src="/def_pfp_6.jpg" class="pfp" />
+                  <!-- pfp -->
+                  <img
+                    :src="
+                      user.profile.profilePicture
+                        ? `http://localhost:8080${user.profile.profilePicture}`
+                        : '/def_pfp_6.jpg'
+                    "
+                    class="pfp border-2 border-gray-400"
+                  />
                   <span
                     class="flex break-all items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5 cursor-pointer message-box max-w-[300px]"
                     v-html="renderMessage(data.message)"
