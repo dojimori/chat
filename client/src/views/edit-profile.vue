@@ -1,6 +1,6 @@
 <template>
   <loading-overlay :loading="store.isLoading"></loading-overlay>
-  <main class="flex flex-col gap-0 border border-gray-400 w-[1080px]">
+  <main class="flex flex-col gap-0 border border-gray-400 sm:w-3xl lg:w-[1080px]">
     <header-component></header-component>
     <div class="flex-1 overflow-auto h-[700px] bg-white shadow-md p-4" v-motion-fade>
       <div
