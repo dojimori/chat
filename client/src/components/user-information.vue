@@ -67,7 +67,7 @@
           <span v-if="!user.profile?.likes">-</span>
           <span
             v-else
-            class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 cursor-pointer duration-150"
+            class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 duration-150"
             >{{ user.profile?.likes }}</span
           >
         </div>
@@ -80,7 +80,7 @@
           <span v-if="!user.profile?.dislikes">-</span>
           <span
             v-else
-            class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 cursor-pointer duration-150"
+            class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 duration-150"
             >{{ user.profile.dislikes }}</span
           >
         </div>
