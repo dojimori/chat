@@ -19,6 +19,8 @@ export const userHandler = (io: Server, socket: Socket) => {
             profilePicture: data.profilePicture
         });
 
+        io.emit('active-users', Array.from(users.values()));
+        console.log(users) 
         io.emit('joined', `${data.displayName || data.username} joined the chat`)
     })
 

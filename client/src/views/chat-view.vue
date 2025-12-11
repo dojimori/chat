@@ -129,7 +129,7 @@
         </div>
       </div>
 
-      <active-users></active-users>
+      <active-users :activeUsers="activeUsers"></active-users>
     </div>
   </main>
 </template>
@@ -258,6 +258,7 @@ export default {
       user: null,
       typingText: null,
       isTyping: false,
+      activeUsers: null,
     };
   },
 
@@ -359,6 +360,16 @@ export default {
       });
 
       this.scrollToBottom();
+    });
+
+    socket.on("active-users", (users) => {
+      // console.log("active-users", users);
+      // users.forEach((user) => {
+      //   console.log("this is here");
+      //   console.log(user);
+      // });
+
+      this.activeUsers = users;
     });
 
     socket.on("left", (data) => {

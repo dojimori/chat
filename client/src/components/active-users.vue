@@ -5,6 +5,10 @@
       <h2 class="header p-2 font-bold text-white text-center">Active Users</h2>
       <div class="flex flex-col">
         <!-- TODO: replace with your actual user list -->
+
+        <div v-for="user in activeUsers">
+          <span>{{ user.username }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -21,3 +25,14 @@
   object-fit: cover;
 }
 </style>
+
+<script>
+export default {
+  props: {
+    activeUsers: {
+      type: Array,
+      required: true,
+    },
+  },
+};
+</script>

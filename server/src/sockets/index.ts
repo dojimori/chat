@@ -2,6 +2,7 @@ import { Server } from "socket.io";
 import { chatHandler } from "./handlers/chat.handler";
 import { userHandler } from "./handlers/user.handler";
 
+// this will have all the active users
 export const users = new Map<string, { 
     'id': number, 
     'username': string, 
