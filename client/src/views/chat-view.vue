@@ -293,7 +293,8 @@ export default {
     },
 
     async sendMessage() {
-      const currentTime = new Date().toLocaleTimeString([], { timeStyle: "short" });
+      // const currentTime = Date().now();
+      const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
       if (this.message.trim() == "") return;
 
       socket.emit("chat:message", {
