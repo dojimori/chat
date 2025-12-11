@@ -13,11 +13,6 @@ export const chatHandler = (io: Server, socket: Socket) => {
             user: messenger
         });
 
-        // store chat message to db
-        // 1. kwaon nato ang user
-        // 2. associate ang chat ani nga user
-
-
         const user = await prisma.user.findUnique({
             where: {
                 id: data.userId

@@ -1,8 +1,13 @@
 import express, { Request, Response } from "express"
 import http from 'http'
 import { Server } from 'socket.io'
+
+/* routes */
 import authRoute from './modules/auth/auth.route'
-import userRoute from './modules/users/user.route'
+import usersRoute from './modules/users/user.route'
+import chatsRoute from './modules/chat/chat.route'
+/* end routes */
+
 import morgan from 'morgan'
 import cors from 'cors'
 import session from 'express-session'
@@ -41,7 +46,8 @@ const root = process.cwd();
 
 app.use('/uploads', express.static(path.join(root, 'uploads')))
 app.use('/api/auth', authRoute);
-app.use('/api/users', userRoute);
+app.use('/api/users', usersRoute);
+app.use('/api/chats', chatsRoute);
 
 
 initializeSocketHandlers(io);
