@@ -2,10 +2,11 @@ import { createWebHistory, createRouter } from 'vue-router'
 import LoginView from './views/login-view.vue';
 import ChatView from './views/chat-view.vue';
 import RegisterView from './views/register-view.vue';
-import userApi from './utils/api/user.api';
-import EditProfile from './views/edit-profile.vue';
+import profileView from './views/profile-view.vue';
+import EditProfileView from './views/edit-profile-view.vue';
 // import { store } from './utils/store'
 import { useStore } from '@/store';
+import ProfileView from './views/profile-view.vue';
 
 const routes = [
   {
@@ -25,15 +26,20 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/profile',
+    component: ProfileView,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/profile/edit',
-    component: EditProfile,
+    component: EditProfileView,
     meta: { requiresAuth: true }
   }
 ]
 
 export const router = createRouter({
-    history: createWebHistory(),
-    routes
+  history: createWebHistory(),
+  routes
 })
 
 router.beforeEach(async (to, from, next) => {
