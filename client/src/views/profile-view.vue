@@ -10,7 +10,17 @@
 
                     <!-- <input type="text"> -->
 
-                    <p class="font-bold">Post something here lmao</p>
+                    <!-- <p class="font-bold">Post something here lmao</p> -->
+
+                    <div class="flex flex-col gap-4 bg-gray-100 border border-gray-300 rounded-sm p-4">
+                        <!-- <input placeholder="write something cool!" -->
+                        <textarea name="" id=""
+                            class="bg-white p-4 outline-none border  border-gray-300 shadow-inner focus:border-blue-500 duration-100"
+                            placeholder="write something cool!" type="text"></textarea>
+                        <div class="flex">
+                            <button class="bg-blue-800 text-white py-2 px-6 rounded-sm">post</button>
+                        </div>
+                    </div>
 
                 </div>
             </div>
