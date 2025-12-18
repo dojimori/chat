@@ -53,6 +53,11 @@
   white-space: nowrap;
 }
 
+.header {
+  background: linear-gradient(to bottom, #4e69a2, #3b5998);
+}
+
+
 .header-btn:hover {
   background: linear-gradient(to bottom, #728ac1, #627aad);
 }
