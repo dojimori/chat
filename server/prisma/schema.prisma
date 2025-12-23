@@ -10,17 +10,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
 }
 
-
 model User {
-  id Int @id @default(autoincrement())
+  id       Int    @id @default(autoincrement())
   username String
   password String
 
   profile Profile?
-  chats Chat[]
+  chats   Chat[]
 
   createdAt DateTime @default(now())
 }
@@ -41,34 +40,33 @@ enum Relationship {
 }
 
 model Profile {
-  id Int @id @default(autoincrement())
-  displayName String?
+  id             Int           @id @default(autoincrement())
+  displayName    String?
   profilePicture String?
-  gender Gender?
-  aboutMe String? // 200 chars max 
-  likes String? // 200 chars max 
-  dislikes String? // 200 chars max 
-  country String?
-  coverPicture String?
-  relationship Relationship?
-  interests String?
-  user User @relation(fields: [userId], references: [id])
-  userId Int @unique
-
+  gender         Gender?
+  aboutMe        String? // 200 chars max 
+  likes          String? // 200 chars max 
+  dislikes       String? // 200 chars max 
+  country        String?
+  coverPicture   String?
+  relationship   Relationship?
+  interests      String?
+  user           User          @relation(fields: [userId], references: [id])
+  userId         Int           @unique
 }
 
 enum ChatType {
   join
   left
-  chat 
+  chat
 }
 
 model Chat {
-  id Int @id @default(autoincrement())
+  id      Int      @id @default(autoincrement())
   message String
-  type ChatType
-  time DateTime @default(now())
-  
-  user User? @relation(fields: [userId], references: [id])
+  type    ChatType
+  time    DateTime @default(now())
+
+  user   User? @relation(fields: [userId], references: [id])
   userId Int?
-} 
+}
