@@ -132,60 +132,12 @@ import userApi from "@/utils/api/user.api";
 import HeaderComponent from "@/components/header-component.vue";
 import { useStore } from "@/store";
 import LoadingOverlay from "@/components/loading-overlay.vue";
+import { countries } from "@/utils/countries";
+
 export default {
   data() {
     return {
-      countries: [
-        "Afghanistan",
-        "Armenia",
-        "Azerbaijan",
-        "Bahrain",
-        "Bangladesh",
-        "Bhutan",
-        "Brunei",
-        "Cambodia",
-        "China",
-        "Cyprus",
-        "Georgia",
-        "India",
-        "Indonesia",
-        "Iran",
-        "Iraq",
-        "Israel",
-        "Japan",
-        "Jordan",
-        "Kazakhstan",
-        "Kuwait",
-        "Kyrgyzstan",
-        "Laos",
-        "Lebanon",
-        "Malaysia",
-        "Maldives",
-        "Mongolia",
-        "Myanmar",
-        "Nepal",
-        "North Korea",
-        "Oman",
-        "Pakistan",
-        "Palestine",
-        "Philippines",
-        "Qatar",
-        "Saudi Arabia",
-        "Singapore",
-        "South Korea",
-        "Sri Lanka",
-        "Syria",
-        "Taiwan",
-        "Tajikistan",
-        "Thailand",
-        "Timor-Leste",
-        "Turkey",
-        "Turkmenistan",
-        "United Arab Emirates",
-        "Uzbekistan",
-        "Vietnam",
-        "Yemen",
-      ],
+     countries,
       username: "", // instead of null
       imageFile: null, // this one is fine as null
       displayName: "",
@@ -216,7 +168,7 @@ export default {
     async fetchUser() {
       const user = this.store.getUser;
       this.username = user.username;
-      this.userProfilePicture = user.profile.profilePicture;
+      this.userProfilePicture = user.profile?.profilePicture;
       this.displayName = user.profile?.displayName;
       this.aboutMe = user.profile?.aboutMe;
       this.gender = user.profile?.gender;
