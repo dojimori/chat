@@ -1,12 +1,12 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import LoginView from './views/login-view.vue';
-import ChatView from './views/chat-view.vue';
-import RegisterView from './views/register-view.vue';
-import profileView from './views/profile-view.vue';
-import EditProfileView from './views/edit-profile-view.vue';
+import LoginView from './views/Login.vue';
+import ChatView from './views/Chat.vue';
+import RegisterView from './views/Register.vue';
+import profileView from './views/auth/profile/Index.vue';
+import EditProfileView from './views/auth/profile/Edit.vue';
 // import { store } from './utils/store'
 import { useStore } from '@/store';
-import ProfileView from './views/profile-view.vue';
+import ProfileView from './views/auth/profile/Index.vue';
 
 const routes = [
   {
