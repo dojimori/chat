@@ -36,11 +36,11 @@ This project is inspired by <a href="chat.ponkis.xyz">chat.ponkis.xyz</a>, I too
 
 3. Install dependencies for server and client
    ```bash
-     cd server && npm install
+     cd server && yarn
    ```
    
    ```bash
-     cd client && npm install
+     cd client && yarn
    ```
 
 4. Run each server
