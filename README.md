@@ -35,6 +35,9 @@ This project is inspired by <a href="chat.ponkis.xyz">chat.ponkis.xyz</a>, I too
    ```
 
 3. Install dependencies for server and client
+   -   Make sure `yarn` package manager is installed in your system.
+   <br/>
+   
    ```bash
      cd server && yarn
    ```
@@ -43,7 +46,7 @@ This project is inspired by <a href="chat.ponkis.xyz">chat.ponkis.xyz</a>, I too
      cd client && yarn
    ```
 
-4. Run each server
+5. Run each server
     ```bash
      open-line/server > yarn dev
    ```
@@ -51,7 +54,7 @@ This project is inspired by <a href="chat.ponkis.xyz">chat.ponkis.xyz</a>, I too
    ```bash
      open-line/client > yarn dev
    ```
-   -  Access the the app on http://localhost:5173
+   -  Access on http://localhost:5173
 
 ## Development
 -  Frontend: Vue.js
