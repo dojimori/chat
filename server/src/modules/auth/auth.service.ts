@@ -32,13 +32,15 @@ class AuthService {
       const user = await authRepository.register({ username, password });
 
       return user;
-    } catch (error) {
-      throw new Error(`${error}`)
+    } catch (error: any) {
+      if (error?.message == 'USER_NOT_FOUND') {
+        throw new AppError('User not found.', 404);
+      }
+
+      throw new AppError('Failed to register user', 500);
     }
   }
   
-
-  // TODO refactor error handling lmao
   async login(payload: LoginDto) {
     try {
       const { username, password } = payload;
@@ -48,19 +50,17 @@ class AuthService {
       
       const user = await userService.findByUsername(username);
 
-      if (!user) {
-        // TODO refactor: throw new AppError with status 409
-        throw new Error(`Invalid account.`)
-      }
-
-      if (!(await bcrypt.compare(password, user.password))) {
-        // TODO refactor: throw new AppError with status 409
-        throw new Error(`Invalid account.`)
+      if (!user || !(await bcrypt.compare(password, user.password))) {
+        throw new AppError('Invalid account, please double check your username or password', 401)
       }
 
       return user;
     } catch (error: any) {
-        throw new Error(`Error logging in: ${error.message}`)
+      if (error.message == 'USER_NOT_FOUND') {
+        throw new AppError('User not found, please double check your username or password', 404)
+      }
+
+      throw error;
     }
 
   }

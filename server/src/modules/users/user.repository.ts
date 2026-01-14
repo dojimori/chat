@@ -5,15 +5,25 @@ import { CreateUserDto } from "./dto/create.dto";
 
 class UserRepository implements IUserRepository {
   async create(payload: CreateUserDto): Promise<User> {
-    return  await prisma.user.create({
+    return await prisma.user.create({
       data: payload,
     });
-
   }
-  async findByUsername(username: string): Promise<User | null> {
-    return await prisma.user.findFirst({
-      where: { username },
-    });
+  async findByUsername(username: string): Promise<User> {
+    try {
+      const user = await prisma.user.findFirst({
+        where: { username },
+      });
+
+      if (!user) {
+        throw new Error('USER_NOT_FOUND')
+      }
+
+      return user; 
+    } catch (error) {
+      console.log(`REPO error: ${error}`)
+      throw error;
+    }
   }
 }
 
