@@ -12,9 +12,12 @@ class UserService {
     return user;
   }
   async findByUsername(username: string): Promise<User | null> {
-    const user = await userRepository.findByUsername(username);
-    return user;
+    return await userRepository.findByUsername(username);
   }
+
+  async findById(id: number): Promise<User | null> {
+    return await userRepository.findById(id);
+  } 
 }
 
 export default new UserService();

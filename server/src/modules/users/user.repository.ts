@@ -9,7 +9,7 @@ class UserRepository implements IUserRepository {
       data: payload,
     });
   }
-  
+
   async findByUsername(username: string): Promise<User> {
     try {
       const user = await prisma.user.findFirst({
@@ -17,12 +17,30 @@ class UserRepository implements IUserRepository {
       });
 
       if (!user) {
-        throw new Error('USER_NOT_FOUND')
+        throw new Error("USER_NOT_FOUND");
       }
 
-      return user; 
+      return user;
     } catch (error) {
-      console.log(`REPO error: ${error}`)
+      console.log(`REPO error: ${error}`);
+      throw error;
+    }
+  }
+
+  async findById(id: number): Promise<User> {
+    try {
+      const user = await prisma.user.findUnique({
+        where: {
+          id,
+        },
+      });
+      if (!user) {
+        throw new Error("USER_NOT_FOUND");
+      }
+
+      return user;
+    } catch (error) {
+      console.log(`REPO error: ${error}`);
       throw error;
     }
   }
