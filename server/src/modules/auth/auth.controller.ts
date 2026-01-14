@@ -15,7 +15,6 @@ class AuthController {
   /**
    * @route /api/auth/login
    */
-
   async login(req: Request, res: Response) {
     const user = await authService.login(req.body);
     req.session.user = { id: user.id, username: user.username };
