@@ -5,33 +5,28 @@ import bcrypt from "bcryptjs"
 import userRepository from "../users/user.repository";
 import { LoginDto } from "./dto/login.dto";
 import userService from "../users/user.service";
-
-
-// TODO: Create custom error instance to modify status codes
+import { AppError } from "../../errors/app.error";
 
 class AuthService {
-  // TODO refactor error handling lmao
   async register(payload: RegisterDto): Promise<User | undefined> {
     const { username, password, passwordConfirmation } = payload;
     if (!username || !password || !passwordConfirmation) {
-      throw new Error("Please fill in missing fields.");
+      throw new AppError("Please fill in missing fields", 409);
     }
 
     if (password !== passwordConfirmation) {
-      // TODO refactor: throw new AppError with status 409
-      throw new Error("Passwords does not match.");
+      throw new AppError("Passwords does not match", 409);
     }
 
     if (password.length < 6) {
-      // TODO refactor: throw new AppError with status 409
-      throw new Error("Password must be atleast 6 characters.");
+      throw new AppError("Password must be atleast 6 characters", 409);
     }
+
     try {
       const existingUser = await userRepository.findByUsername(username);
 
       if (existingUser) {
-        // TODO refactor: throw new AppError with status 409
-        throw new Error("Username already taken.");
+        throw new AppError("Username already taken", 409);
       }
 
       const user = await authRepository.register({ username, password });

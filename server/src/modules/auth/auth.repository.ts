@@ -12,8 +12,8 @@ class AuthRepository implements IAuthRepository {
   }
 
   login(payload: any) {
-
+    throw new Error('NOT_IMPLEMENTED')
   }
-}
+} 
 
 export default new AuthRepository();
