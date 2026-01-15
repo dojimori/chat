@@ -9,13 +9,14 @@ export const chatHandler = (io: Server, socket: Socket) => {
     socket.on('chat:message', async (data) => {
         const messenger = users.get(socket.id)
         const { message, time } = data;
+        console.log(data)
         io.emit('chat:message', {
             message,
             time,
             user: messenger
         });
 
-        const user = await userService.findById(data.id)
+        const user = await userService.findById(data.userId)
 
         if (!user) {
             return;
