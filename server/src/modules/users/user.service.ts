@@ -1,6 +1,5 @@
 import userRepository from "./user.repository";
-import { prisma } from "../../../lib/prisma";
-import { Profile, User } from "../../../generated/prisma/client";
+import { Profile } from "../../../generated/prisma/client";
 import { CreateUserDto } from "./dto/create.dto";
 import bcrypt from "bcryptjs";
 
