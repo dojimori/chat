@@ -1,6 +1,13 @@
 import { upload } from '../../config/multer.config';
 import express from 'express'
-import usersController from './users.controller';
+import { UserRepository } from './user.repository';
+import { UserService } from './user.service';
+import { UserController } from './users.controller';
+
+
+const userRepo = new UserRepository();
+const userService = new UserService(userRepo);
+const usersController = new UserController(userService)
 
 const router = express.Router();
 

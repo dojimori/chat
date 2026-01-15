@@ -1,12 +1,9 @@
 import { Request, Response } from "express";
-import { UserRepository } from "./user.repository";
 import { UserService} from "./user.service";
-import { AppError } from "../../errors/app.error";
 
-const userRepo = new UserRepository();
-const userService = new UserService(userRepo)
+export class UserController {
+  constructor(private readonly userService: UserService){};
 
-class UserController {
   /**
    *
    * @param req
@@ -21,7 +18,7 @@ class UserController {
       return res.status(403).json(null);
     }
 
-    const user = await userService.findByIdWithProfile(isAuth.id);
+    const user = await this.userService.findByIdWithProfile(isAuth.id);
 
     return res.status(200).json({ user });
   }
@@ -42,11 +39,9 @@ class UserController {
 
     const file = (req as any).file;
     const profilePicture = file ? `/uploads/profiles/${file.filename}` : undefined;
-    await userService.upsertProfile({ ...req.body, profilePicture }, isAuth.id);
-    const user = await userService.findByIdWithProfile(isAuth.id);
+    await this.userService.upsertProfile({ ...req.body, profilePicture }, isAuth.id);
+    const user = await this.userService.findByIdWithProfile(isAuth.id);
 
     res.status(200).json({ user });
   }
 }
-
-export default new UserController();
