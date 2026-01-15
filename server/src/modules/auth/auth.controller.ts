@@ -6,108 +6,44 @@ import { LoginDto } from "./dto/login.dto";
 class AuthController {
   /**
    * @route /api/auth/register
+   * @param req
+   * @param res
+   * @returns status -> 201
    */
   async register(req: Request, res: Response) {
     await authService.register(req.body);
-    res.status(201).json({ message: 'Registered successfully, please login' });
+    res.status(201).json({ message: "Registered successfully, please login" });
   }
 
   /**
    * @route /api/auth/login
+   * @param req
+   * @param res
+   * @returns status -> 200
    */
   async login(req: Request, res: Response) {
     const user = await authService.login(req.body);
-    
+
     req.session.user = { id: user.id, username: user.username };
-    res.status(200).json({ message: 'Login successfully', user });
+    res.status(200).json({ message: "Login successfully", user });
+  }
+
+  /**
+   * @route /api/auth/logout
+   * @param req
+   * @param res
+   * @returns status -> 204
+   */
+  async logout(req: Request, res: Response) {
+    req.session.destroy((err) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json("Error logging out");
+      }
+    });
+
+    return res.status(404).json({});
   }
 }
 
 export default new AuthController();
-
-// export const register = async (req: Request, res: Response) => {
-//     try {
-//         const { username, password } = req.body;
-
-//         if (username.trim() == '' || password.trim() == '') {
-//             return res.status(409).json({ message: 'Please fill in missing fields.'})
-//         }
-
-//         if (password.length < 6) {
-//             return res.status(409).json({ message: 'Password must be atleast 6 characters.'})
-//         }
-
-//         const userNameExists = await prisma.user.findFirst({
-//             where: {
-//                 username: username
-//             }
-//         })
-
-//         if (userNameExists) {
-//             return res.status(409).json({ message: ''})
-//         }
-
-//         const salt = await bcrypt.genSalt(10);
-//         const hashedPassword = await bcrypt.hash(password, salt);
-
-//         const user = await prisma.user.create({
-//             data: {
-//                 username,
-//                 password: hashedPassword
-//             }
-//         });
-
-//         res.status(201).json({ message: 'Registered successfully, please login.'})
-//     } catch(err) {
-//         console.log(err)
-//         res.status(500).json({ message: `${err}`})
-//     }
-// }
-
-// export const login = async (req: Request, res: Response) => {
-//     try {
-//         if (req.session.user) return res.status(409).json({ message: 'Session already exists.'})
-// ;
-
-//         const { username, password } = req.body;
-//         console.log('body', req.body);
-
-//         if (username.trim() == '' || password.trim() == '') {
-//             return res.status(409).json({ message: 'Please fill in missing fields.'})
-//         }
-
-//         const user = await prisma.user.findFirst({
-//             where: {
-//                 username: username
-//             }
-//         })
-//         if (!user) {
-//             return res.status(409).json({ message: 'Invalid account.'})
-//         }
-
-//         const isValid = await bcrypt.compare(password, user.password);
-
-//         if (!isValid) {
-//             return res.status(409).json({ message: 'Invalid account.'})
-//         }
-
-//         req.session.user = { id: user.id, username: user.username };
-
-//         return res.status(200).json({ message: 'Login successfully.', user });
-//     } catch(error) {
-//         console.log(error)
-//         return res.status(500).json({ message: 'Login failed :('});
-//     }
-// }
-
-// export const logout = async (req: Request, res: Response) => {
-//     req.session.destroy((err) => {
-//         if(err) {
-//             console.log(err)
-//         } else {
-//             console.log('Session destroyed');
-//         }
-//     });
-
-//     return res.json({ message: 'Logged out'})
-// }
