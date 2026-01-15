@@ -8,6 +8,7 @@ class UserController {
    *
    * @param req
    * @param res
+   * @route /api/users/
    * @returns status 200
    */
   async me(req: Request, res: Response) {
