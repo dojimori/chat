@@ -26,7 +26,7 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
-    path: '/profile/:username',
+    path: '/timeline/:username',
     name: 'UserProfile',
     component: ProfileView,
     meta: { requiresAuth: true }
