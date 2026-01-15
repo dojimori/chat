@@ -39,7 +39,7 @@
 
                             <!-- body -->
                             <div class="mt-4">
-                                <p>fuck u</p>
+                                <p>I love U</p>
                             </div>
 
                             <!-- footer -->

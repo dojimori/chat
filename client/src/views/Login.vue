@@ -142,20 +142,8 @@ export default {
     async login() {
       try {
         this.isLoading = true;
-        // const response = await fetch("http://localhost:8080/api/auth/login", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   credentials: "include",
-        //   body: JSON.stringify({ username: this.username, password: this.password }),
-        // });
-
         await authApi.login(this.username, this.password);
-
-        // if (response.statusText == "OK") {
         this.$router.push("/chat");
-        // }
       } catch (error) {
         console.error(error);
         this.errorMessage = error.response.data.message || "Something went wrong.";

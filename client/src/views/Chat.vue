@@ -227,14 +227,11 @@ img:hover {
 <script>
 import { socket } from "@/utils/socket";
 import EmojiPicker from "@/components/emoji-picker.vue";
-import userApi from "@/utils/api/user.api";
 import { emojis } from "@/utils/emojis";
 import ActiveUsers from "@/components/active-users.vue";
 import UserInformation from "@/components/user-information.vue";
 import { PhPaperPlaneRight, PhSmiley } from "@phosphor-icons/vue";
-// import api from "@/utils/api/";
 import HeaderComponent from "@/components/header-component.vue";
-import authApi from "@/utils/api/auth.api";
 import { useStore } from "@/store";
 import api from "@/utils/api";
 
@@ -289,7 +286,6 @@ export default {
     },
 
     async sendMessage() {
-      // const currentTime = Date().now();
       const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
       if (this.message.trim() == "") return;
 
