@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
-import { prisma } from "../../../lib/prisma";
-import userService from "./user.service";
+import { UserRepository } from "./user.repository";
+import { UserService} from "./user.service";
 import { AppError } from "../../errors/app.error";
+
+const userRepo = new UserRepository();
+const userService = new UserService(userRepo)
 
 class UserController {
   /**
