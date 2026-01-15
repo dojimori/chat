@@ -27,20 +27,29 @@ class UserRepository implements IUserRepository {
     }
   }
 
-  async findById(id: number): Promise<User> {
+  async findById(id: number, includeProfile: boolean = false): Promise<User> {
     try {
-      const user = await prisma.user.findUnique({
-        where: {
-          id,
-        },
-      });
+      const user = includeProfile
+        ? await prisma.user.findUnique({
+            where: {
+              id,
+            },
+            include: {
+              profile: true,
+            },
+          })
+        : await prisma.user.findUnique({
+            where: {
+              id,
+            },
+          });
+
       if (!user) {
         throw new Error("USER_NOT_FOUND");
       }
-
       return user;
     } catch (error) {
-      console.log(`REPO error: ${error}`);
+      console.log(`database error: ${error}`);
       throw error;
     }
   }

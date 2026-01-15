@@ -11,13 +11,19 @@ class UserService {
     const user = await userRepository.create({ ...payload, password: hashedPassword });
     return user;
   }
-  async findByUsername(username: string): Promise<User | null> {
+  async findByUsername(username: string) {
     return await userRepository.findByUsername(username);
   }
 
-  async findById(id: number): Promise<User | null> {
-    return await userRepository.findById(id);
+  async findById(id: number) {
+    const { password, ...safeUser } = await userRepository.findById(id);
+    return safeUser;
   } 
+
+  async findByIdWithProfile(id: number) {
+    const { password, ...safeUser } = await userRepository.findById(id, true);
+    return safeUser;
+  }
 }
 
 export default new UserService();
