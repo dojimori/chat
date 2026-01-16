@@ -105,7 +105,7 @@
               type="text"
               @input="onTyping"
               @blur="onStopTyping"
-              class="flex-1  outline-none border border-gray-200 p-2 text-sm bg-white"
+              class="flex-1  outline outline-gray-400 p-2 text-sm bg-white"
             />
 
             <emoji-picker

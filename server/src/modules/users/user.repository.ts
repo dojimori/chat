@@ -22,38 +22,35 @@ export class UserRepository implements IUserRepository {
     return user;
   }
 
-  async findById(id: number, includeProfile: boolean = false): Promise<User> {
-    const user = includeProfile
-      ? await prisma.user.findUnique({
-          where: {
-            id,
-          },
-          include: {
-            profile: true,
-          },
-        })
-      : await prisma.user.findUnique({
-          where: {
-            id,
-          },
-        });
+  async findById(id: number): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
 
-    if (!user) {
-      throw new Error("USER_NOT_FOUND");
-    }
-    return user;
+  async findByIdWithProfile(id: number): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      include: {
+        profile: true,
+      },
+    })
   }
 
   async upsertProfile({
-      displayName,
-      aboutMe,
-      gender,
-      country,
-      likes,
-      dislikes,
-      relationship,
-      profilePicture,
-    }: Profile,
+    displayName,
+    aboutMe,
+    gender,
+    country,
+    likes,
+    dislikes,
+    relationship,
+    profilePicture,
+  }: Profile,
     userId: number
   ): Promise<Profile> {
     return await prisma.profile.upsert({

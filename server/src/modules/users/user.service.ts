@@ -2,9 +2,10 @@ import { UserRepository } from "./user.repository";
 import { Profile } from "../../../generated/prisma/client";
 import { CreateUserDto } from "./dto/create.dto";
 import bcrypt from "bcryptjs";
+import { AppError } from "../../errors/app.error";
 
 export class UserService {
-  constructor(private readonly userRepository: UserRepository){}
+  constructor(private readonly userRepository: UserRepository) { }
 
   async create(payload: CreateUserDto) {
     const salt = await bcrypt.genSalt(10);
@@ -17,12 +18,23 @@ export class UserService {
   }
 
   async findById(id: number) {
-    const { password, ...safeUser } = await this.userRepository.findById(id);
+    const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new AppError('User not found', 404);
+
+    }
+
+    const { password, ...safeUser } = user;
     return safeUser;
   }
 
   async findByIdWithProfile(id: number) {
-    const { password, ...safeUser } = await this.userRepository.findById(id, true);
+    const user = await this.userRepository.findByIdWithProfile(id);
+    if (!user) {
+      throw new AppError('User not found', 404);
+
+    }
+    const { password, ...safeUser } = user;
     return safeUser;
   }
 
