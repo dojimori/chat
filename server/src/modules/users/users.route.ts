@@ -12,7 +12,7 @@ const usersController = new UserController(userService)
 const router = express.Router();
 
 router.get('/', authMiddleware, usersController.me);
-router.post('/profile', upload.single('profile'), usersController.updateProfile);
+router.post('/profile', [upload.single('profile'), authMiddleware], usersController.updateProfile);
 
 
 export default router;

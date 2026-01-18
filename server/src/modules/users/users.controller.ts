@@ -27,16 +27,12 @@ export class UserController {
    * @returns status 200
    */
   updateProfile = async (req: Request, res: Response) => {
-    const isAuth = req.session.user;
-
-    if (!isAuth) {
-      return res.status(403);
-    }
+    const userId = (req as any).userId;
 
     const file = (req as any).file;
     const profilePicture = file ? `/uploads/profiles/${file.filename}` : undefined;
-    await this.userService.upsertProfile({ ...req.body, profilePicture }, isAuth.id);
-    const user = await this.userService.findByIdWithProfile(isAuth.id);
+    await this.userService.upsertProfile({ ...req.body, profilePicture }, userId);
+    const user = await this.userService.findByIdWithProfile(userId);
 
     res.status(200).json({ user });
   }
