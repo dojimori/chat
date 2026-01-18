@@ -1,8 +1,12 @@
 import { Server, Socket } from "socket.io"
 import { users } from "..";
-import { prisma } from "../../../lib/prisma";
-import userService from "../../modules/users/user.service";
+import { UserService } from "../../modules/users/user.service";
+import { UserRepository } from "../../modules/users/user.repository";
 import chatService from "../../modules/chats/chat.service";
+
+
+const userRepo = new UserRepository();
+const userService = new UserService(userRepo);
 
 
 export const chatHandler = (io: Server, socket: Socket) => {
@@ -23,15 +27,5 @@ export const chatHandler = (io: Server, socket: Socket) => {
         }
 
         await chatService.create(message, 'chat', user.id);
-        // await prisma.chat.create({
-        //     data: {
-        //         message,
-        //         type: 'chat',
-        //         user: {
-        //             connect: { id: user.id }
-        //         }
-        //     }
-        // })
-
     });
 }

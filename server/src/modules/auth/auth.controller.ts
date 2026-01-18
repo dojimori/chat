@@ -14,7 +14,7 @@ export class AuthController {
    * @param res
    * @returns status -> 201
    */
-  async register(req: Request, res: Response) {
+  register = async (req: Request, res: Response) => {
     await this.authService.register(req.body);
     res.status(201).json({ message: "Registered successfully, please login" });
   }
@@ -25,7 +25,7 @@ export class AuthController {
    * @param res
    * @returns status -> 200
    */
-  async login(req: Request, res: Response) {
+  login = async (req: Request, res: Response) => {
     const { user, accessToken } = await this.authService.login(req.body);
 
     res.cookie("accessToken", accessToken, {
@@ -45,7 +45,7 @@ export class AuthController {
    * @param res
    * @returns status -> 204
    */
-  async logout(req: Request, res: Response) {
+  logout = (req: Request, res: Response) => {
     req.session.destroy((err) => {
       if (err) {
         console.log(err);
