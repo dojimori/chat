@@ -87,9 +87,9 @@
 </style>
 
 <script>
-import HeaderComponent from "@/components/header-component.vue";
+import HeaderComponent from "@/components/HeaderComponent.vue";
 import { useStore } from "@/store";
-import UserInformation from "@/components/user-information.vue";
+import UserInformation from "@/components/UserInformationAside.vue";
 import { PhThumbsUp, PhThumbsDown } from "@phosphor-icons/vue";
 
 export default {

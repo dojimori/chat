@@ -226,12 +226,12 @@ img:hover {
 
 <script>
 import { socket } from "@/utils/socket";
-import EmojiPicker from "@/components/emoji-picker.vue";
+import EmojiPicker from "@/components/EmojiPicker.vue";
 import { emojis } from "@/utils/emojis";
-import ActiveUsers from "@/components/active-users.vue";
-import UserInformation from "@/components/user-information.vue";
+import ActiveUsers from "@/components/ActiveUsers.vue";
+import UserInformation from "@/components/UserInformationAside.vue";
 import { PhPaperPlaneRight, PhSmiley } from "@phosphor-icons/vue";
-import HeaderComponent from "@/components/header-component.vue";
+import HeaderComponent from "@/components/HeaderComponent.vue";
 import { useStore } from "@/store";
 import api from "@/utils/api";
 

@@ -128,10 +128,9 @@
 <script>
 // TODO (PRIORITY): IMPLEMENT CROPPER JS FOR PROFILE PICTURE
 import { PhArrowBendDownLeft, PhFloppyDisk } from "@phosphor-icons/vue";
-import userApi from "@/utils/api/user.api";
-import HeaderComponent from "@/components/header-component.vue";
+import HeaderComponent from "@/components/HeaderComponent.vue";
 import { useStore } from "@/store";
-import LoadingOverlay from "@/components/loading-overlay.vue";
+import LoadingOverlay from "@/components/LoadingOverlay.vue";
 import { countries } from "@/utils/countries";
 
 export default {
