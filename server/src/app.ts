@@ -1,6 +1,10 @@
-import express, { Request, Response } from "express"
+
+import express from "express"
 import http from 'http'
 import { Server } from 'socket.io'
+import { initializeSocketHandlers } from "./sockets"
+import path from "path"
+
 
 /* routes */
 import authRoute from './modules/auth/auth.route'
@@ -8,12 +12,16 @@ import usersRoute from './modules/users/users.route'
 import chatsRoute from './modules/chats/chats.route'
 /* end routes */
 
+
+/* middlewares */
+import { errorHandler } from "./middleware/error.middleware"
+import session from 'express-session'
 import morgan from 'morgan'
 import cors from 'cors'
-import session from 'express-session'
-import { initializeSocketHandlers } from "./sockets"
-import path from "path"
-import { errorHandler } from "./middleware/error.middleware"
+import cookieParser from "cookie-parser"
+/* end middlewares */
+
+
 const app = express();
 const server = http.createServer(app)
 
@@ -26,7 +34,7 @@ export const io = new Server(server, {
 
 app.use(morgan('dev'))
 app.use(
-  cors({ 
+  cors({
     origin: "http://localhost:5173",
     credentials: true
   })
@@ -42,6 +50,8 @@ app.use(session({
     secure: false,          // if frontend is https
   }
 }))
+app.use(cookieParser())
+
 
 const root = process.cwd();
 

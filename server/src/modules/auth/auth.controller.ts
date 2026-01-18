@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
 import { RegisterDto } from "./dto/register.dto";
-import authService from "./auth.service";
 import { LoginDto } from "./dto/login.dto";
+import { AuthService } from "./auth.service";
 
-class AuthController {
+
+export class AuthController {
+  constructor(private readonly authService: AuthService) { };
+
+
   /**
    * @route /api/auth/register
    * @param req
@@ -11,7 +15,7 @@ class AuthController {
    * @returns status -> 201
    */
   async register(req: Request, res: Response) {
-    await authService.register(req.body);
+    await this.authService.register(req.body);
     res.status(201).json({ message: "Registered successfully, please login" });
   }
 
@@ -22,7 +26,7 @@ class AuthController {
    * @returns status -> 200
    */
   async login(req: Request, res: Response) {
-    const user = await authService.login(req.body);
+    const user = await this.authService.login(req.body);
 
     req.session.user = { id: user.id, username: user.username };
     res.status(200).json({ message: "Login successfully", user });
@@ -45,5 +49,3 @@ class AuthController {
     return res.status(404).json({});
   }
 }
-
-export default new AuthController();

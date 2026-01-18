@@ -1,12 +1,15 @@
 import { User } from "../../../generated/prisma/client";
 import { RegisterDto } from "./dto/register.dto";
 import bcrypt from "bcryptjs"
-import userRepository from "../users/user.repository";
+// import userRepository from "../users/user.repository";
 import { LoginDto } from "./dto/login.dto";
-import userService from "../users/user.service";
+// import userService from "../users/user.service";
 import { AppError } from "../../errors/app.error";
+import { UserRepository } from "../users/user.repository";
 
-class AuthService {
+export class AuthService {
+  constructor(private readonly userRepository: UserRepository) { };
+
   async register(payload: RegisterDto): Promise<User | undefined> {
     const { username, password, passwordConfirmation } = payload;
     if (!username || !password || !passwordConfirmation) {
@@ -22,13 +25,13 @@ class AuthService {
     }
 
     try {
-      const existingUser = await userRepository.findByUsername(username);
+      const existingUser = await this.userRepository.findByUsername(username);
 
       if (existingUser) {
         throw new AppError("Username already taken", 409);
       }
 
-      const user = await userRepository.create({ username, password });
+      const user = await this.userRepository.create({ username, password });
 
       return user;
     } catch (error: any) {
@@ -39,7 +42,7 @@ class AuthService {
       throw new AppError('Failed to register user', 500);
     }
   }
-  
+
   async login(payload: LoginDto) {
     try {
       const { username } = payload;
@@ -47,8 +50,8 @@ class AuthService {
       if (!username || !_password) {
         throw new AppError("Please fill in missing fields..", 400);
       }
-      
-      const user = await userService.findByUsername(username);
+
+      const user = await this.userRepository.findByUsername(username);
 
       if (!user || !(await bcrypt.compare(_password, user.password))) {
         throw new AppError('Invalid account, please double check your username or password', 401)
@@ -67,5 +70,3 @@ class AuthService {
 
   }
 }
-
-export default new AuthService();
