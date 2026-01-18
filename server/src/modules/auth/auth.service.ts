@@ -1,11 +1,11 @@
 import { User } from "../../../generated/prisma/client";
 import { RegisterDto } from "./dto/register.dto";
 import bcrypt from "bcryptjs"
-// import userRepository from "../users/user.repository";
 import { LoginDto } from "./dto/login.dto";
-// import userService from "../users/user.service";
 import { AppError } from "../../errors/app.error";
 import { UserRepository } from "../users/user.repository";
+import jwt from 'jsonwebtoken'
+
 
 export class AuthService {
   constructor(private readonly userRepository: UserRepository) { };
@@ -59,7 +59,17 @@ export class AuthService {
 
       const { password, ...safeUser } = user;
 
-      return safeUser;
+      // create token 
+      const accessToken = jwt.sign(
+        { userId: user.id },
+        'secret',
+        {
+          expiresIn: '1h'
+        }
+      )
+
+
+      return { user: safeUser, accessToken };
     } catch (error: any) {
       if (error.message == 'USER_NOT_FOUND') {
         throw new AppError('User not found, please double check your username or password', 404)

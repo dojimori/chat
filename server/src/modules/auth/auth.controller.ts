@@ -26,9 +26,16 @@ export class AuthController {
    * @returns status -> 200
    */
   async login(req: Request, res: Response) {
-    const user = await this.authService.login(req.body);
+    const { user, accessToken } = await this.authService.login(req.body);
 
-    req.session.user = { id: user.id, username: user.username };
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: false, // set to true in production for HTTPS cookies
+      maxAge: 1000 * 60 * 60, // 1 hour
+      sameSite: true
+    })
+
+    // req.session.user = { id: user.id, username: user.username };
     res.status(200).json({ message: "Login successfully", user });
   }
 
