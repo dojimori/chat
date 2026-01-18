@@ -15,4 +15,6 @@ export const authMiddleware = (
 
   const decodedToken = jwt.verify(accessToken, 'secret');
   (req as any).userId = (decodedToken as any).userId;
+
+  next();
 }

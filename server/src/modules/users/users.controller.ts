@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import { UserService} from "./user.service";
+import { UserService } from "./user.service";
 
 export class UserController {
-  constructor(private readonly userService: UserService){};
+  constructor(private readonly userService: UserService) { };
 
   /**
    *
@@ -11,14 +11,10 @@ export class UserController {
    * @route /api/users/
    * @returns status 200
    */
-  async me(req: Request, res: Response) {
-    const isAuth = req.session.user;
+  me = async (req: Request, res: Response) => {
+    const userId = (req as any).userId;
 
-    if (!isAuth) {
-      return res.status(403).json(null);
-    }
-
-    const user = await this.userService.findByIdWithProfile(isAuth.id);
+    const user = await this.userService.findByIdWithProfile(userId);
 
     return res.status(200).json({ user });
   }
@@ -30,7 +26,7 @@ export class UserController {
    * @route /api/users/profile
    * @returns status 200
    */
-  async updateProfile(req: Request, res: Response) {
+  updateProfile = async (req: Request, res: Response) => {
     const isAuth = req.session.user;
 
     if (!isAuth) {
