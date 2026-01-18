@@ -46,13 +46,7 @@ export class AuthController {
    * @returns status -> 204
    */
   logout = (req: Request, res: Response) => {
-    req.session.destroy((err) => {
-      if (err) {
-        console.log(err);
-        return res.status(500).json("Error logging out");
-      }
-    });
-
-    return res.status(404).json({});
+    res.clearCookie('accessToken');
+    return res.status(200).json({});
   }
 }
