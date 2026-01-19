@@ -21,6 +21,7 @@ describe('post service test', () => {
 
   it('should create post', async () => {
     // this will the the payload sent to the service
+    const userId = 1
     const input = { title: 'ww', description: 'ss' }
     /* 
       this is the expected output or return value of the method
@@ -35,12 +36,12 @@ describe('post service test', () => {
     mockPostRepo.create.mockResolvedValue(mockOutput)
 
     //  execute the method
-    const result = await postService.create(input);
+    const result = await postService.create(userId, input);
 
     // check if the result if equal to the mock output
     expect(result).toEqual(mockOutput)
     // check if the `create` method is properly called    
-    expect(mockPostRepo.create).toHaveBeenCalledWith({ ...input })
+    expect(mockPostRepo.create).toHaveBeenCalledWith(userId, { ...input })
 
   })
 

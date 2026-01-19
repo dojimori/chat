@@ -9,6 +9,7 @@ jest.mock('../../../lib/prisma', () => {
   };
 });
 
+
 import supertest from 'supertest'
 import { app } from "../../app"
 
@@ -20,6 +21,8 @@ describe('POST /posts', () => {
       .post('/api/posts')
       .send(input)
       .expect(201)
+
+    expect(res.body.message).toEqual('Post created successfully')
   })
 
 
