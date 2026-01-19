@@ -11,7 +11,6 @@ const io = new Server(server, {
   }
 });
 
-
 initializeSocketHandlers(io);
 server.listen(8080, () => {
   console.log('Server running on  http://localhost:8080');

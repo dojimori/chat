@@ -11,7 +11,7 @@ const postController = new PostController(postService)
 
 const router = Router()
 
-router.post('/', authMiddleware, postController.create);
+router.post('/', postController.create);
 
 
 export default router;

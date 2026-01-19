@@ -1,3 +1,4 @@
+import { CreatePostDto } from "./dtos/create.dto";
 import { UpdatePostDto } from "./dtos/update.dto";
 import { PostService } from "./posts.service";
 import { Request, Response } from 'express'
@@ -12,7 +13,7 @@ export class PostController {
     return res.status(200).json({ posts })
   }
 
-  create = async (req: Request, res: Response) => {
+  create = async (req: Request<{}, {}, CreatePostDto>, res: Response) => {
     const userId = (req as any).userId;
     const post = await this.postService.create(userId, req.body);
 
