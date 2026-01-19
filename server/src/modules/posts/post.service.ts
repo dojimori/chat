@@ -11,12 +11,12 @@ export class PostService {
     return posts
   }
 
-  async create(payload: CreatePostDto) {
+  async create(userId: number, payload: CreatePostDto) {
     if (!payload.description) {
       throw new AppError('Description is required', 400)
     }
 
-    const post = await this.postRepo.create(payload);
+    const post = await this.postRepo.create(userId, payload);
     return post;
   }
 

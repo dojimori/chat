@@ -10,13 +10,13 @@ export class PostRepository implements IPostRepository {
     return await prisma.post.findMany();
   }
 
-  async create({ title, description }: CreatePostDto): Promise<Post> {
+  async create(userId: number, { title, description }: CreatePostDto): Promise<Post> {
     return await prisma.post.create({
       data: {
         title: title ?? undefined,
         description: description ?? undefined,
         user: {
-          connect: { id: 1 }
+          connect: { id: userId }
         }
       },
     })

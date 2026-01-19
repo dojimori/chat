@@ -11,12 +11,12 @@ export class PostController {
   }
 
   create = async (req: Request, res: Response) => {
-    return await this.postService.create(req.body);
+    const userId = (req as any).userId;
+    return await this.postService.create(userId, req.body);
   }
 
   update = async (req: Request, res: Response) => {
     const payload: UpdatePostDto = req.body;
     return await this.postService.update(payload)
   }
-
 }
