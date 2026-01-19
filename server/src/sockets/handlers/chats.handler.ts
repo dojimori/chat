@@ -1,15 +1,15 @@
 import { Server, Socket } from "socket.io"
 import { users } from "..";
-import { UserService } from "../../modules/users/user.service";
-import { UserRepository } from "../../modules/users/user.repository";
-import chatService from "../../modules/chats/chat.service";
+import { UserService } from "../../modules/users/users.service";
+import { UserRepository } from "../../modules/users/users.repository";
+import chatService from "../../modules/chats/chats.service";
 
 
 const userRepo = new UserRepository();
 const userService = new UserService(userRepo);
 
 
-export const chatHandler = (io: Server, socket: Socket) => {
+export const chatsHandler = (io: Server, socket: Socket) => {
     socket.on('chat:message', async (data) => {
         const messenger = users.get(socket.id)
         const { message, time } = data;

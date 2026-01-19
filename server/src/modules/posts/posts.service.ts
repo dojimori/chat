@@ -1,7 +1,7 @@
 import { AppError } from "../../errors/app.error";
 import { CreatePostDto } from "./dtos/create.dto";
 import { UpdatePostDto } from "./dtos/update.dto";
-import { IPostRepository } from "./post.interface";
+import { IPostRepository } from "./posts.interface";
 
 export class PostService {
   constructor(private readonly postRepo: IPostRepository) { };

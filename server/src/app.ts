@@ -7,9 +7,10 @@ import path from "path"
 
 
 /* routes */
-import authRoute from './modules/auth/auth.route'
-import usersRoute from './modules/users/users.route'
-import chatsRoute from './modules/chats/chats.route'
+import authRoutes from './modules/auth/auth.route'
+import usersRoutes from './modules/users/users.route'
+import chatsRoutes from './modules/chats/chats.route'
+import postsRoutes from './modules/posts/posts.route'
 /* end routes */
 
 
@@ -56,9 +57,10 @@ app.use(cookieParser())
 const root = process.cwd();
 
 app.use('/uploads', express.static(path.join(root, 'uploads')))
-app.use('/api/auth', authRoute);
-app.use('/api/users', usersRoute);
-app.use('/api/chats', chatsRoute);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', usersRoutes);
+app.use('/api/chats', chatsRoutes);
+app.use('/api/posts', postsRoutes);
 app.use(errorHandler)
 
 initializeSocketHandlers(io);

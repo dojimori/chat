@@ -10,12 +10,12 @@ const onDisconnectHandler = (io: Server, socket: Socket) => {
     }
 }
 
-export const userHandler = (io: Server, socket: Socket) => {
+export const usersHandler = (io: Server, socket: Socket) => {
     socket.on('join', (data) => {
         // console.log(`${username} joined.`)
         users.set(socket.id, {
-            username: data.username, 
-            id: data.id, 
+            username: data.username,
+            id: data.id,
             displayName: data.displayName,
             profilePicture: data.profilePicture
         });

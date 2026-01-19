@@ -1,7 +1,7 @@
 
 import { Request, Response } from 'express'
 import { prisma } from '../../../lib/prisma'
-import chatService from './chat.service';
+import chatService from './chats.service';
 
 class ChatController {
     async getAll(req: Request, res: Response) {

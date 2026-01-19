@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { PostRepository } from './post.repository';
-import { PostService } from './post.service';
-import { PostController } from './post.controller';
+import { PostRepository } from './posts.repository';
+import { PostService } from './posts.service';
+import { PostController } from './posts.controller';
 import { authMiddleware } from '../../middleware/auth.middleware';
 
 

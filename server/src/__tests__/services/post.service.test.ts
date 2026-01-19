@@ -1,6 +1,6 @@
 import { AppError } from "../../errors/app.error";
-import { IPostRepository } from "../../modules/posts/post.interface";
-import { PostService } from "../../modules/posts/post.service";
+import { IPostRepository } from "../../modules/posts/posts.interface";
+import { PostService } from "../../modules/posts/posts.service";
 
 // Testing the post service by mocking the post repo
 describe('post service test', () => {

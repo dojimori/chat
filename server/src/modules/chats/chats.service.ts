@@ -1,4 +1,4 @@
-import chatRepository from "./chat.repository";
+import chatRepository from "./chats.repository";
 import { Chat } from "../../../generated/prisma/client";
 
 class ChatService {
@@ -6,7 +6,7 @@ class ChatService {
     return chatRepository.create(message, type, userId);
   }
 
-  async getAll(): Promise<Chat[]| []> {
+  async getAll(): Promise<Chat[] | []> {
     const chats = await chatRepository.getAll();
     chats?.reverse();
     return chats;

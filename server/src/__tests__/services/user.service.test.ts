@@ -1,5 +1,5 @@
-import { UserService } from "../../modules/users/user.service";
-import { UserRepository } from "../../modules/users/user.repository";
+import { UserService } from "../../modules/users/users.service";
+import { UserRepository } from "../../modules/users/users.repository";
 
 const mockUserRepo = {
   findByUsername: jest.fn()

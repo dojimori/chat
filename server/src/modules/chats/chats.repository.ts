@@ -1,5 +1,5 @@
 import { Chat } from "../../../generated/prisma/client";
-import { IChatRepository } from "./chat.interface";
+import { IChatRepository } from "./chats.interface";
 import { prisma } from "../../../lib/prisma";
 
 class ChatRepository implements IChatRepository {
@@ -23,18 +23,18 @@ class ChatRepository implements IChatRepository {
   async getAll(): Promise<Chat[] | []> {
     try {
       return await prisma.chat.findMany({
-      take: 18,
-      include: {
-        user: {
-          include: {
-            profile: true,
+        take: 18,
+        include: {
+          user: {
+            include: {
+              profile: true,
+            },
           },
         },
-      },
-      orderBy: {
-        time: "desc",
-      },
-    });
+        orderBy: {
+          time: "desc",
+        },
+      });
     } catch (error) {
       console.log(`database error: ${error}`);
       throw error

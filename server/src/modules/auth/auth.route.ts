@@ -4,7 +4,7 @@ import express from 'express'
 // import authController from './auth.controller';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { UserRepository } from '../users/user.repository';
+import { UserRepository } from '../users/users.repository';
 
 const userRepo = new UserRepository();
 const authService = new AuthService(userRepo);

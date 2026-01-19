@@ -1,5 +1,5 @@
 import { UpdatePostDto } from "./dtos/update.dto";
-import { PostService } from "./post.service";
+import { PostService } from "./posts.service";
 import { Request, Response } from 'express'
 
 export class PostController {

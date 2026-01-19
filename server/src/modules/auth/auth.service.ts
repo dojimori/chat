@@ -3,7 +3,7 @@ import { RegisterDto } from "./dto/register.dto";
 import bcrypt from "bcryptjs"
 import { LoginDto } from "./dto/login.dto";
 import { AppError } from "../../errors/app.error";
-import { UserRepository } from "../users/user.repository";
+import { UserRepository } from "../users/users.repository";
 import jwt from 'jsonwebtoken'
 
 

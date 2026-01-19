@@ -1,5 +1,5 @@
 import { Post } from "../../../generated/prisma/client";
-import { IPostRepository } from "./post.interface";
+import { IPostRepository } from "./posts.interface";
 import { prisma } from "../../../lib/prisma";
 import { CreatePostDto } from "./dtos/create.dto";
 import { UpdatePostDto } from "./dtos/update.dto";

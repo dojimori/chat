@@ -1,5 +1,5 @@
 import { Profile, User } from "../../../generated/prisma/client";
-import { IUserRepository } from "./user.interface";
+import { IUserRepository } from "./users.interface";
 import { prisma } from "../../../lib/prisma";
 import { CreateUserDto } from "./dto/create.dto";
 
