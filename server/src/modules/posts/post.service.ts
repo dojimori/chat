@@ -1,4 +1,5 @@
 import { CreatePostDto } from "./dtos/create.dto";
+import { UpdatePostDto } from "./dtos/update.dto";
 import { IPostRepository } from "./post.interface";
 
 export class PostService {
@@ -9,4 +10,8 @@ export class PostService {
     return post;
   }
 
+  async update(id: number, payload: UpdatePostDto) {
+    const post = await this.postRepo.update(id, payload);
+    return post;
+  }
 }

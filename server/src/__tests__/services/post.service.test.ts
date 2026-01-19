@@ -9,7 +9,8 @@ describe('post service test', () => {
   // here, we mock the post repo
   beforeEach(() => {
     mockPostRepo = {
-      create: jest.fn()
+      create: jest.fn(),
+      update: jest.fn()
     } as any;
 
     // created a new instance of the service and pass in the mocked repo
@@ -38,6 +39,24 @@ describe('post service test', () => {
     expect(result).toEqual(mockOutput)
     // check if the `create` method is properly called    
     expect(mockPostRepo.create).toHaveBeenCalledWith({ ...input })
+
+  })
+
+  it('should update user', async () => {
+    const postId = 1;
+    const input = { title: 'updated title', description: 'updated description' };
+    const mockOutput = {
+      id: postId,
+      ...input,
+      userId: 1
+    }
+
+    mockPostRepo.update.mockResolvedValue(mockOutput)
+
+    const result = await postService.update(postId, input)
+
+    expect(result).toEqual(mockOutput)
+    expect(mockPostRepo.update).toHaveBeenCalledWith({ ...input })
 
   })
 
