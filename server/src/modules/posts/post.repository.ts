@@ -29,7 +29,7 @@ export class PostRepository implements IPostRepository {
       },
       data: {
         title: title ?? undefined,
-        description: description ?? undefined
+        description
       }
     })
   }

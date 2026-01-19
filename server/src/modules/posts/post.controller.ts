@@ -15,8 +15,8 @@ export class PostController {
   }
 
   update = async (req: Request, res: Response) => {
-    const { postId, payload }: UpdatePostDto = req.body;
-    return await this.postService.update(postId, payload)
+    const payload: UpdatePostDto = req.body;
+    return await this.postService.update(payload)
   }
 
 }
