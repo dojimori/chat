@@ -7,16 +7,22 @@ export class PostController {
 
 
   getAll = async (req: Request, res: Response) => {
-    return this.postService.getAll()
+    const posts = this.postService.getAll()
+
+    return res.status(200).json({ posts })
   }
 
   create = async (req: Request, res: Response) => {
     const userId = (req as any).userId;
-    return await this.postService.create(userId, req.body);
+    const post = await this.postService.create(userId, req.body);
+
+    return res.status(201).json({ message: 'Post created successfully', post })
   }
 
   update = async (req: Request, res: Response) => {
     const payload: UpdatePostDto = req.body;
-    return await this.postService.update(payload)
+    const post = await this.postService.update(payload)
+
+    return res.status(200).json({ message: 'Post updated successfully', post })
   }
 }
