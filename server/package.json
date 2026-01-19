@@ -20,7 +20,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": "jest --verbose --runInBand --coverage",
+    "test": "jest --verbose --runInBand",
     "dev": "tsx watch ./src/app.ts"
   },
   "devDependencies": {
