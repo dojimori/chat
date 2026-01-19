@@ -1,8 +1,6 @@
 
 import express from "express"
-import http from 'http'
-import { Server } from 'socket.io'
-import { initializeSocketHandlers } from "./sockets"
+
 import path from "path"
 
 
@@ -23,15 +21,7 @@ import cookieParser from "cookie-parser"
 /* end middlewares */
 
 
-const app = express();
-const server = http.createServer(app)
-
-
-export const io = new Server(server, {
-  cors: {
-    origin: 'http://localhost:5173',
-  }
-});
+export const app = express();
 
 app.use(morgan('dev'))
 app.use(
@@ -62,9 +52,3 @@ app.use('/api/users', usersRoutes);
 app.use('/api/chats', chatsRoutes);
 app.use('/api/posts', postsRoutes);
 app.use(errorHandler)
-
-initializeSocketHandlers(io);
-server.listen(8080, () => {
-  console.log('Server running on  http://localhost:8080');
-});
-

@@ -21,7 +21,7 @@
   "type": "module",
   "scripts": {
     "test": "jest --verbose --runInBand",
-    "dev": "tsx watch ./src/app.ts"
+    "dev": "tsx watch ./src/index.ts"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
