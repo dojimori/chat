@@ -4,6 +4,11 @@ import { prisma } from "../../../lib/prisma";
 import { CreatePostDto } from "./dtos/create.dto";
 
 export class PostRepository implements IPostRepository {
+
+  async getAll(): Promise<Post[] | null> {
+    return await prisma.post.findMany();
+  }
+
   async create({ title, description }: CreatePostDto): Promise<Post> {
     return await prisma.post.create({
       data: {

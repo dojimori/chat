@@ -10,7 +10,8 @@ describe('post service test', () => {
   beforeEach(() => {
     mockPostRepo = {
       create: jest.fn(),
-      update: jest.fn()
+      update: jest.fn(),
+      getAll: jest.fn()
     } as any;
 
     // created a new instance of the service and pass in the mocked repo
@@ -60,5 +61,28 @@ describe('post service test', () => {
 
   })
 
+
+  it('should get all of the posts', async () => {
+    const mockOutput = [
+      {
+        id: 1,
+        title: 'hahaha',
+        description: 'www',
+        userId: 1
+      },
+      {
+        id: 2,
+        title: 'hahaha',
+        description: 'www',
+        userId: 1
+      },
+    ];
+
+    mockPostRepo.getAll.mockResolvedValue(mockOutput);
+
+    const result = await postService.getAll();
+
+    expect(result).toEqual(mockOutput)
+  })
 
 })

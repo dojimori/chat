@@ -5,6 +5,11 @@ import { IPostRepository } from "./post.interface";
 export class PostService {
   constructor(private readonly postRepo: IPostRepository) { };
 
+  async getAll() {
+    const posts = await this.postRepo.getAll();
+    return posts
+  }
+
   async create(payload: CreatePostDto) {
     const post = await this.postRepo.create(payload);
     return post;
