@@ -1,3 +1,4 @@
+import { AppError } from "../../errors/app.error";
 import { IPostRepository } from "../../modules/posts/post.interface";
 import { PostService } from "../../modules/posts/post.service";
 
@@ -18,7 +19,7 @@ describe('post service test', () => {
     postService = new PostService(mockPostRepo as IPostRepository)
   })
 
-  it('should create user', async () => {
+  it('should create post', async () => {
     // this will the the payload sent to the service
     const input = { title: 'ww', description: 'ss' }
     /* 
@@ -43,9 +44,10 @@ describe('post service test', () => {
 
   })
 
-  it('should update user', async () => {
+  it('should update post', async () => {
     const postId = 1;
     const input = { title: 'updated title', description: 'updated description' };
+    const payload = { id: postId, ...input };
     const mockOutput = {
       id: postId,
       ...input,
@@ -54,13 +56,22 @@ describe('post service test', () => {
 
     mockPostRepo.update.mockResolvedValue(mockOutput)
 
-    const result = await postService.update(postId, input)
+    const result = await postService.update(payload)
 
     expect(result).toEqual(mockOutput)
-    expect(mockPostRepo.update).toHaveBeenCalledWith(postId, { ...input })
+    expect(mockPostRepo.update).toHaveBeenCalledWith({ ...payload })
 
   })
 
+  it('should throw error `Description is required`', async () => {
+    const input = { title: 'title only' }
+    const appError = new AppError('Description is required', 400);
+
+    mockPostRepo.update.mockRejectedValue(appError);
+
+    await expect(postService.update(input)).rejects.toBeInstanceOf(AppError)
+
+  })
 
   it('should get all of the posts', async () => {
     const mockOutput = [
@@ -84,5 +95,6 @@ describe('post service test', () => {
 
     expect(result).toEqual(mockOutput)
   })
+
 
 })
