@@ -56,7 +56,7 @@ describe('post service test', () => {
     const result = await postService.update(postId, input)
 
     expect(result).toEqual(mockOutput)
-    expect(mockPostRepo.update).toHaveBeenCalledWith({ ...input })
+    expect(mockPostRepo.update).toHaveBeenCalledWith(postId, { ...input })
 
   })
 
