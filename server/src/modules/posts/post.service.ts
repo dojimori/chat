@@ -15,8 +15,8 @@ export class PostService {
     return post;
   }
 
-  async update(id: number, payload: UpdatePostDto) {
-    const post = await this.postRepo.update(id, payload);
+  async update(payload: UpdatePostDto) {
+    const post = await this.postRepo.update({ ...payload });
     return post;
   }
 }

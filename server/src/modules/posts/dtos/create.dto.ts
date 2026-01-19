@@ -1,4 +1,4 @@
 export interface CreatePostDto {
   title?: string;
-  description: string;
+  description?: string;
 }
