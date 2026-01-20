@@ -2,6 +2,9 @@ import { app } from "./app";
 import http from 'http'
 import { Server } from 'socket.io'
 import { initializeSocketHandlers } from "./sockets"
+import registerRoutes from "./register.routes";
+
+registerRoutes(app)
 
 const server = http.createServer(app)
 
@@ -12,7 +15,7 @@ const io = new Server(server, {
 });
 
 initializeSocketHandlers(io);
+
 server.listen(8080, () => {
   console.log('Server running on  http://localhost:8080');
 });
-

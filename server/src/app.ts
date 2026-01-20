@@ -1,15 +1,7 @@
 
 import express from "express"
-
 import path from "path"
 
-
-/* routes */
-import authRoutes from './modules/auth/auth.route'
-import usersRoutes from './modules/users/users.route'
-import chatsRoutes from './modules/chats/chats.route'
-import postsRoutes from './modules/posts/posts.route'
-/* end routes */
 
 
 /* middlewares */
@@ -42,13 +34,5 @@ app.use(session({
   }
 }))
 app.use(cookieParser())
-
-
 const root = process.cwd();
-
 app.use('/uploads', express.static(path.join(root, 'uploads')))
-app.use('/api/auth', authRoutes);
-app.use('/api/users', usersRoutes);
-app.use('/api/chats', chatsRoutes);
-app.use('/api/posts', postsRoutes);
-app.use(errorHandler)

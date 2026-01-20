@@ -14,7 +14,7 @@ export class PostController {
   }
 
   create = async (req: Request<{}, {}, CreatePostDto>, res: Response) => {
-    const userId = (req as any).userId;
+    const userId = (req as any).userId || 1;
     const post = await this.postService.create(userId, req.body);
 
     return res.status(201).json({ message: 'Post created successfully', post })
