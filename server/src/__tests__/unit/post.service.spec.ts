@@ -59,17 +59,18 @@ describe('post service test', () => {
     const result = await postService.update(postId, payload)
 
     expect(result).toEqual(mockOutput)
-    expect(mockPostRepo.update).toHaveBeenCalledWith({ ...payload })
+    expect(mockPostRepo.update).toHaveBeenCalledWith(postId, payload)
 
   })
 
   it('should throw error `Description is required`', async () => {
+    const postId = 1;
     const input = { title: 'title only' }
     const appError = new AppError('Description is required', 400);
 
     mockPostRepo.update.mockRejectedValue(appError);
 
-    await expect(postService.update(input)).rejects.toBeInstanceOf(AppError)
+    await expect(postService.update(postId, input)).rejects.toBeInstanceOf(AppError)
 
   })
 
