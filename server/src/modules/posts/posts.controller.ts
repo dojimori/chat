@@ -25,7 +25,8 @@ export class PostController {
 
   update = async (req: Request, res: Response) => {
     const payload: UpdatePostDto = req.body;
-    const post = await this.postService.update(payload)
+    const id = parseInt(req.params.id);
+    const post = await this.postService.update(id, payload)
 
     return res.status(200).json({ message: 'Post updated successfully', post })
   }

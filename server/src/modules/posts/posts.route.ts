@@ -12,6 +12,7 @@ const postController = new PostController(postService)
 const router = Router()
 
 router.post('/', postController.create);
+router.put('/:id', postController.update);
 router.get('/', postController.getAll);
 router.get('/health', postController.healthCheck);
 

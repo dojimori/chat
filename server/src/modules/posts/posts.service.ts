@@ -20,12 +20,12 @@ export class PostService {
     return post;
   }
 
-  async update(payload: UpdatePostDto) {
+  async update(id: number, payload: UpdatePostDto) {
     if (!payload.description) {
       throw new AppError('Description is required', 400)
     }
 
-    const post = await this.postRepo.update({ ...payload });
+    const post = await this.postRepo.update(id, payload);
     return post;
   }
 }

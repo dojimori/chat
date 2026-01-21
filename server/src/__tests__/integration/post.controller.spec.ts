@@ -56,4 +56,14 @@ describe('POST /posts', () => {
     const res = await request(app).get('/api/posts').expect(200)
   })
 
+  it('should update post -> status 200', async () => {
+    const postId = 1;
+    const payload = { title: 'Hello', description: 'World' };
+    const res = await request(app)
+      .put(`/api/posts/${postId}`)
+      .send(payload)
+      .expect(200);
+
+  })
+
 })

@@ -47,17 +47,16 @@ describe('post service test', () => {
 
   it('should update post', async () => {
     const postId = 1;
-    const input = { title: 'updated title', description: 'updated description' };
-    const payload = { id: postId, ...input };
+    const payload = { title: 'updated title', description: 'updated description' };
     const mockOutput = {
       id: postId,
-      ...input,
+      ...payload,
       userId: 1
     }
 
     mockPostRepo.update.mockResolvedValue(mockOutput)
 
-    const result = await postService.update(payload)
+    const result = await postService.update(postId, payload)
 
     expect(result).toEqual(mockOutput)
     expect(mockPostRepo.update).toHaveBeenCalledWith({ ...payload })

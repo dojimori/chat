@@ -5,5 +5,5 @@ import { UpdatePostDto } from "./dtos/update.dto";
 export interface IPostRepository {
   getAll(): Promise<Post[] | null>;
   create(userId: number, payload: CreatePostDto): Promise<Post>;
-  update(payload: UpdatePostDto): Promise<Post>;
+  update(id: number, payload: UpdatePostDto): Promise<Post>;
 }
