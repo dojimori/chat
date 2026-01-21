@@ -1,40 +1,63 @@
-// jest.mock('../../../lib/prisma', () => {
+jest.mock('../../../lib/prisma', () => {
+  return {
+    prisma: {
+      post: {
+        create: jest.fn(),
+        update: jest.fn(),
+      },
+      user: {
+        findUnique: jest.fn(),
+      },
+    },
+  };
+});
+
+// jest.mock('../../modules/posts/posts.service', () => {
 //   return {
-//     prisma: {
-//       post: {
-//         create: jest.fn(),
-//         update: jest.fn(),
-//       },
-//     },
-//   };
-// });
+//     PrivateService: jest.fn().mockImplementation(() => ({
+//       create: jest.fn(),
+//       update: jest.fn(),
+//       getAll: jest.fn(),
+//     }))
+//   }
+// })
 
-
-
-import supertest from 'supertest'
+import request from 'supertest'
 import { app } from "../../app"
-import registerRoutes from '../../register.routes'
-
-beforeAll(() => {
-  registerRoutes(app)
-})
+import { PostService } from '../../modules/posts/posts.service';
+import registerRoutes from '../../register.routes';
 
 describe('POST /posts', () => {
-  it('create user and return 201', async () => {
-    const input = { title: 'create title', description: 'create description' }
 
-    const res = await supertest(app)
-      .post('/api/posts')
-      .send(input)
-      .expect(201)
+  let mockService: any;
 
-    expect(res.body.message).toEqual('Post created successfullxy')
-    // expect(res.body.post).toEqual({
-    //   id: 1,
-    //   ...input,
-    //   userId: 1
-    // })
+
+  beforeAll(() => {
+    registerRoutes(app)
   })
 
 
+  it('should return status 200', async () => {
+    const res = await request(app).get('/api/posts/health').expect(200);
+  })
+
+  it('should create post', async () => {
+    const payload = { title: 'Hello', description: 'World' };
+    const fakePost = { id: 1, userId: 1, ...payload };
+
+    const MockedPostService = PostService as jest.Mock;
+    MockedPostService.prototype.create = jest.fn().mockResolvedValue(fakePost);
+
+    const res = await request(app)
+      .post('/api/posts')
+      .send(payload)
+      .expect(201);
+
+    expect(res.body).toEqual({
+      message: 'Post created successfully',
+      post: { ...fakePost }
+    });
+    expect(MockedPostService.prototype.create)
+      .toHaveBeenCalledWith(1, payload);
+  });
 })

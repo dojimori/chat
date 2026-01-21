@@ -12,6 +12,8 @@ const postController = new PostController(postService)
 const router = Router()
 
 router.post('/', postController.create);
+router.get('/', postController.getAll);
+router.get('/health', postController.healthCheck);
 
 
 export default router;

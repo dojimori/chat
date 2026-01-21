@@ -6,9 +6,12 @@ import { Request, Response } from 'express'
 export class PostController {
   constructor(private readonly postService: PostService) { }
 
+  healthCheck = (req: Request, res: Response) => {
+    return res.status(200).send('ok')
+  }
 
   getAll = async (req: Request, res: Response) => {
-    const posts = this.postService.getAll()
+    const posts = await this.postService.getAll()
 
     return res.status(200).json({ posts })
   }

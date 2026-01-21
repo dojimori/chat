@@ -5,7 +5,6 @@ import path from "path"
 
 
 /* middlewares */
-import { errorHandler } from "./middleware/error.middleware"
 import session from 'express-session'
 import morgan from 'morgan'
 import cors from 'cors'
