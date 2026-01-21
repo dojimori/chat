@@ -10,6 +10,7 @@ jest.mock('../../../lib/prisma', () => {
       post: {
         create: jest.fn(),
         update: jest.fn(),
+        findMany: jest.fn()
       },
       user: {
         findUnique: jest.fn(),
@@ -33,7 +34,7 @@ describe('POST /posts', () => {
     const res = await request(app).get('/api/posts/health').expect(200);
   })
 
-  it('should create post', async () => {
+  it('should create post -> status 201', async () => {
     const payload = { title: 'Hello', description: 'World' };
     const fakePost = { id: 1, userId: 1, ...payload };
 
@@ -50,4 +51,9 @@ describe('POST /posts', () => {
       post: fakePost
     });
   });
+
+  it('should get all posts -> status 200', async () => {
+    const res = await request(app).get('/api/posts').expect(200)
+  })
+
 })
