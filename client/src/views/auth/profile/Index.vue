@@ -16,7 +16,7 @@
             </div>
           </div>
           <!-- posts -->
-          <div class="flex flex-col gap-15">
+          <div class="flex flex-col gap-15" v-for="post in posts">
             <div class="bg-gray-100 border-2 border-gray-200 p-4">
               <!-- header -->
               <div class="flex flex-row gap-4">
@@ -32,7 +32,7 @@
 
               <!-- post body -->
               <div class="mt-4">
-                <p>Thinking out loud</p>
+                <p>{{ post.description }}</p>
               </div>
               <!-- end post body -->
 
@@ -68,12 +68,18 @@
 }
 </style>
 
-<script>
+<script lang="ts">
 import HeaderComponent from "@/components/HeaderComponent.vue";
 import { useStore } from "@/store";
 import UserInformation from "@/components/UserInformationAside.vue";
 import { PhThumbsUp, PhThumbsDown } from "@phosphor-icons/vue";
 import api from "@/utils/api";
+
+interface Post {
+  id: number;
+  title?: string;
+  description: string;
+}
 
 
 export default {
@@ -87,7 +93,8 @@ export default {
   data() {
     return {
       user: null,
-      postDescription: ''
+      postDescription: '',
+      posts: [] as Post[]
     };
   },
 
@@ -99,7 +106,18 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
 
+    async getPosts() {
+      try {
+        const response = await api.get('/posts')
+
+        if (response.statusText == 'OK') {
+          this.posts = response.data.posts
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
 
@@ -109,8 +127,9 @@ export default {
     },
   },
 
-  mounted() {
+  async mounted() {
     this.user = this.store.getUser;
+    await this.getPosts()
   },
 };
 </script>
