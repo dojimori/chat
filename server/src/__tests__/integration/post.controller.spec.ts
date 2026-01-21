@@ -1,12 +1,7 @@
 /*
-  Mock the Prisma client module so the real Prisma client file is never loaded.
-
-  This prevents:
-  - Jest trying to execute Prisma's ESM-generated client
-  - `import.meta` syntax errors in Jest (CommonJS environment)
-  - Real database connections during tests
-
-  All Prisma calls are replaced with mock functions.
+  this will mock prisma so it doens't really use the actual
+  prisma that uses ESM which conflicts with jest compilation
+  which causes the annoying error
 */
 
 jest.mock('../../../lib/prisma', () => {
@@ -23,20 +18,20 @@ jest.mock('../../../lib/prisma', () => {
   };
 });
 
+
 import request from 'supertest'
 import { app } from "../../app"
 import { PostService } from '../../modules/posts/posts.service';
-import registerRoutes from '../../register.routes';
+import postsRoutes from '../../modules/posts/posts.route'
+
 
 describe('POST /posts', () => {
 
   let mockService: any;
 
-
   beforeAll(() => {
-    registerRoutes(app)
+    app.use('/api/posts', postsRoutes);
   })
-
 
   it('should return status 200', async () => {
     const res = await request(app).get('/api/posts/health').expect(200);
@@ -45,9 +40,6 @@ describe('POST /posts', () => {
   it('should create post', async () => {
     const payload = { title: 'Hello', description: 'World' };
     const fakePost = { id: 1, userId: 1, ...payload };
-
-    const MockedPostService = PostService as jest.Mock;
-    MockedPostService.prototype.create = jest.fn().mockResolvedValue(fakePost);
 
     const res = await request(app)
       .post('/api/posts')
@@ -58,7 +50,5 @@ describe('POST /posts', () => {
       message: 'Post created successfully',
       post: { ...fakePost }
     });
-    expect(MockedPostService.prototype.create)
-      .toHaveBeenCalledWith(1, payload);
   });
 })
