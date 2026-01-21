@@ -7,9 +7,8 @@ This project is inspired by <a href="chat.ponkis.xyz">chat.ponkis.xyz</a>, I too
 ## Features
 -  <strong>User authentication</strong>: Session based login and registration system.
 -  <strong>Realtime messaging</strong>: Implemented websocket with socket.io library for realtime message updates.
--  <strong>Posting</strong>: User can share their thoughts on their profile.
+-  <strong>Posting</strong>: User can share their thoughts on their timeline.
 -  <strong>Profile Customization</strong>: User can edit their profile picture, username, and other information.
--  <strong>2000's vibe UI</strong>: The UI is primarily inspired by Facebook's old UI in their early release.
 
 ## Screenshots
 ### Login Page
