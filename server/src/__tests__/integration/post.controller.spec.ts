@@ -1,3 +1,14 @@
+/*
+  Mock the Prisma client module so the real Prisma client file is never loaded.
+
+  This prevents:
+  - Jest trying to execute Prisma's ESM-generated client
+  - `import.meta` syntax errors in Jest (CommonJS environment)
+  - Real database connections during tests
+
+  All Prisma calls are replaced with mock functions.
+*/
+
 jest.mock('../../../lib/prisma', () => {
   return {
     prisma: {
@@ -11,16 +22,6 @@ jest.mock('../../../lib/prisma', () => {
     },
   };
 });
-
-// jest.mock('../../modules/posts/posts.service', () => {
-//   return {
-//     PrivateService: jest.fn().mockImplementation(() => ({
-//       create: jest.fn(),
-//       update: jest.fn(),
-//       getAll: jest.fn(),
-//     }))
-//   }
-// })
 
 import request from 'supertest'
 import { app } from "../../app"
