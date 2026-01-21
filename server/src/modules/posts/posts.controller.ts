@@ -11,7 +11,8 @@ export class PostController {
   }
 
   index = async (req: Request, res: Response) => {
-    const posts = await this.postService.getAll()
+    const userId = (req as any).userId
+    const posts = await this.postService.getAll(userId)
 
     return res.status(200).json({ posts })
   }

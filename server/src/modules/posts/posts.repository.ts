@@ -6,8 +6,14 @@ import { UpdatePostDto } from "./dtos/update.dto";
 
 export class PostRepository implements IPostRepository {
 
-  async getAll(): Promise<Post[] | null> {
-    return await prisma.post.findMany({});
+  async getAll(userId: number): Promise<Post[] | null> {
+    return await prisma.post.findMany({
+      where: {
+        user: {
+          id: userId
+        }
+      }
+    });
   }
 
   async create(userId: number, { title, description }: CreatePostDto): Promise<Post> {

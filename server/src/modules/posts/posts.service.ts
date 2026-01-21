@@ -6,8 +6,8 @@ import { IPostRepository } from "./posts.interface";
 export class PostService {
   constructor(private readonly postRepo: IPostRepository) { };
 
-  async getAll() {
-    const posts = await this.postRepo.getAll();
+  async getAll(userId: number) {
+    const posts = await this.postRepo.getAll(userId);
     return posts
   }
 
