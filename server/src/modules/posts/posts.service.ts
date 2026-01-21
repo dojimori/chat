@@ -6,9 +6,18 @@ import { IPostRepository } from "./posts.interface";
 export class PostService {
   constructor(private readonly postRepo: IPostRepository) { };
 
-  async getAll(userId: number, limit: number, skip: number) {
+  async getAll(userId: number, page: number, limit: number, skip: number) {
     const posts = await this.postRepo.getAll(userId, limit, skip);
-    return posts
+    const total = await this.postRepo.total(userId);
+    return {
+      posts,
+      meta: {
+        total,
+        lastPage: Math.ceil(total / limit),
+        limit,
+        page
+      }
+    }
   }
 
   async create(userId: number, payload: CreatePostDto) {

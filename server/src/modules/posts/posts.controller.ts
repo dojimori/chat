@@ -27,9 +27,9 @@ export class PostController {
     const limit = parseInt(req.query.limit as any) || 10;
     const skip = (page - 1) * limit;
 
-    const posts = await this.postService.getAll(userId, limit, skip);
+    const data = await this.postService.getAll(userId, page, limit, skip);
 
-    return res.status(200).json({ ...posts });
+    return res.status(200).json({ ...data });
   };
 
   /**

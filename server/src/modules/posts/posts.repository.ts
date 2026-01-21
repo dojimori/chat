@@ -3,26 +3,20 @@ import { IPostRepository } from "./posts.interface";
 import { prisma } from "../../../lib/prisma";
 import { CreatePostDto } from "./dtos/create.dto";
 import { UpdatePostDto } from "./dtos/update.dto";
-import { PostPaginate } from "./posts.interface";
 
 export class PostRepository implements IPostRepository {
 
-  async getAll(userId: number, limit: number, skip: number): Promise<Post[] | PostPaginate> {
+  async getAll(userId: number, limit: number, skip: number): Promise<Post[]> {
     // TODO: order by creaetedAt
-    const [posts, total] = await prisma.$transaction([
-      prisma.post.findMany({
-        skip,
-        take: limit,
-        orderBy: {
-          id: 'desc'
-        }
-      }),
+    const posts = await prisma.post.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        id: 'desc'
+      }
+    })
 
-      prisma.post.count()
-    ])
-
-    const paginate: PostPaginate = { posts, total }
-    return paginate
+    return posts
   }
 
   async create(userId: number, { title, description }: CreatePostDto): Promise<Post> {
@@ -61,6 +55,14 @@ export class PostRepository implements IPostRepository {
     return await prisma.post.findUnique({
       where: {
         id
+      }
+    })
+  }
+
+  async total(userId: number): Promise<number> {
+    return await prisma.post.count({
+      where: {
+        userId
       }
     })
   }

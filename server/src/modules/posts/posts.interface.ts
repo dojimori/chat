@@ -8,14 +8,15 @@ export interface IPostRepository {
     page?: number,
     limit?: number,
     skip?: number
-  ): Promise<Post[] | PostPaginate>;
+  ): Promise<Post[]>;
   create(userId: number, payload: CreatePostDto): Promise<Post>;
   update(id: number, payload: UpdatePostDto): Promise<Post>;
   delete(id: number): Promise<Post>;
   show(id: number): Promise<Post | null>;
+  total(userId: number): Promise<number>;
 }
 
-export interface PostPaginate {
-  posts: Post[];
-  total: number;
-}
+// export interface PostPaginate {
+//   posts: Post[];
+//   total: number;
+// }
