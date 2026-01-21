@@ -22,7 +22,7 @@ jest.mock('../../../lib/prisma', () => {
 import request from 'supertest'
 import { app } from "../../app"
 import postsRoutes from '../../modules/posts/posts.route'
-
+import { prisma } from '../../../lib/prisma';
 
 describe('POST /posts', () => {
   beforeAll(() => {
@@ -37,6 +37,9 @@ describe('POST /posts', () => {
     const payload = { title: 'Hello', description: 'World' };
     const fakePost = { id: 1, userId: 1, ...payload };
 
+    // mocking prisma's return value
+    (prisma.post.create as jest.Mock).mockResolvedValue(fakePost)
+
     const res = await request(app)
       .post('/api/posts')
       .send(payload)
@@ -44,7 +47,7 @@ describe('POST /posts', () => {
 
     expect(res.body).toEqual({
       message: 'Post created successfully',
-      post: { ...fakePost }
+      post: fakePost
     });
   });
 })
