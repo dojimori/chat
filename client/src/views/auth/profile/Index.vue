@@ -1,8 +1,28 @@
 <template>
   <main class="flex flex-col gap-0 border border-gray-400 w-full sm:w-2xl md:w-3xl lg:w-7xl min-h-[844px]">
     <header-component></header-component>
-    <div class="flex-1 flex flex-col lg:flex-row justify-center">
-      <user-information></user-information>
+    <div class="flex-1 flex flex-col justify-center">
+      <!-- <user-information></user-information> -->
+
+      <!-- user profile -->
+
+      <div class="p-6 bg-gray-50 border-b border-gray-400">
+        <div class="flex flex-row gap-2 items-center">
+          <img :src="user?.profile && user.profile.profilePicture
+            ? `http://localhost:8080${user.profile.profilePicture}`
+            : '/def_pfp_6.jpg'
+            " class="pfp border-2 border-gray-400 w-[50px]" />
+          <div class="flex flex-col">
+            <h4 class="font-bold">{{ user?.username }}</h4>
+            <span class="text-gray-600" style="font-size: 11px;">joined at</span>
+            <span class="text-xs text-gray-500">{{
+              new Date(user?.createdAt).toLocaleDateString()
+            }}</span>
+          </div>
+        </div>
+      </div>
+
+
       <div class="flex-1 bg-white">
         <div class="p-2 flex-1 flex flex-col gap-3 min-h-[400px] max-h-[400px] lg:min-h-[660px] lg:max-h-[660px]">
           <div class="flex flex-col gap-4 bg-gray-100 border border-gray-300 rounded-sm p-4">
@@ -63,22 +83,33 @@
 }
 
 .post-btn:hover {
-  /* background: linear-gradient(to bottom, #647aa9, #5971a6); */
   opacity: 0.8;
 }
 </style>
 
 <script lang="ts">
 import HeaderComponent from "@/components/HeaderComponent.vue";
-import { useStore } from "@/store";
 import UserInformation from "@/components/UserInformationAside.vue";
 import { PhThumbsUp, PhThumbsDown } from "@phosphor-icons/vue";
 import api from "@/utils/api";
+import { useStore } from "@/store";
+
 
 interface Post {
   id: number;
   title?: string;
   description: string;
+}
+
+interface Profile {
+  profilePicture: string;
+}
+
+interface User {
+  id: number;
+  username: string;
+  createdAt: string;
+  profile: Profile;
 }
 
 
@@ -92,7 +123,7 @@ export default {
 
   data() {
     return {
-      user: null,
+      user: null as User,
       postDescription: '',
       posts: [] as Post[]
     };
