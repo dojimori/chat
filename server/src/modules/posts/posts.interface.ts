@@ -6,4 +6,5 @@ export interface IPostRepository {
   getAll(): Promise<Post[] | null>;
   create(userId: number, payload: CreatePostDto): Promise<Post>;
   update(id: number, payload: UpdatePostDto): Promise<Post>;
+  delete(id: number): Promise<Post>;
 }

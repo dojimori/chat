@@ -11,10 +11,13 @@ const postController = new PostController(postService)
 
 const router = Router()
 
-router.post('/', postController.create);
-router.put('/:id', postController.update);
 router.get('/', postController.getAll);
 router.get('/health', postController.healthCheck);
+
+router.post('/', postController.create);
+router.delete('/:id', postController.delete);
+router.put('/:id', postController.update);
+
 
 
 export default router;

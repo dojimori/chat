@@ -28,4 +28,14 @@ export class PostService {
     const post = await this.postRepo.update(id, payload);
     return post;
   }
+
+  async delete(id: number) {
+    // if (!payload.description) {
+    //   throw new AppError('Description is required', 400)
+    // }
+    // TODO: find unique post before deleting
+
+
+    return await this.postRepo.delete(id)
+  }
 }

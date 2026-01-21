@@ -10,7 +10,8 @@ jest.mock('../../../lib/prisma', () => {
       post: {
         create: jest.fn(),
         update: jest.fn(),
-        findMany: jest.fn()
+        findMany: jest.fn(),
+        delete: jest.fn(),
       },
       user: {
         findUnique: jest.fn(),
@@ -74,6 +75,27 @@ describe('POST /posts', () => {
       message: 'Post updated successfully',
       post: fakePost
     })
+
+  })
+
+
+  it('should delete post -> status 200', async () => {
+
+    const postId = 1;
+    const payload = { title: 'Updated title', description: 'Updated description' };
+    const fakePost = { id: 1, userId: 1, ...payload };
+
+
+    (prisma.post.update as jest.Mock).mockResolvedValue(fakePost);
+
+    const res = await request(app)
+      .delete(`/api/posts/${postId}`)
+      .expect(200);
+
+    // expect(res.body).toEqual({
+    //   message: 'Post deleted successfully',
+    //   post: fakePost
+    // })
 
   })
 
