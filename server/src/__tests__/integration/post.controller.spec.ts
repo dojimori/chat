@@ -8,11 +8,12 @@ jest.mock('../../../lib/prisma', () => {
   return {
     prisma: {
       post: {
+        findUnique: jest.fn(),
         create: jest.fn(),
         update: jest.fn(),
         findMany: jest.fn(),
         delete: jest.fn(),
-        findUnique: jest.fn()
+
       },
       user: {
         findUnique: jest.fn(),
@@ -26,10 +27,19 @@ import request from 'supertest'
 import { app } from "../../app"
 import postsRoutes from '../../modules/posts/posts.route'
 import { prisma } from '../../../lib/prisma';
+import jwt from 'jsonwebtoken'
 
 describe('POST /posts', () => {
+  let accessToken: string;
   beforeAll(() => {
     app.use('/api/posts', postsRoutes);
+    accessToken = jwt.sign(
+      { userId: 1 },
+      'secret',
+      {
+        expiresIn: '1h'
+      }
+    )
   })
 
   it('should return status 200', async () => {
@@ -45,6 +55,7 @@ describe('POST /posts', () => {
 
     const res = await request(app)
       .post('/api/posts')
+      .set('Cookie', [`accessToken=${accessToken}`])
       .send(payload)
       .expect(201);
 
@@ -69,6 +80,7 @@ describe('POST /posts', () => {
 
     const res = await request(app)
       .put(`/api/posts/${postId}`)
+      .set('Cookie', [`accessToken=${accessToken}`])
       .send(payload)
       .expect(200);
 
@@ -91,6 +103,7 @@ describe('POST /posts', () => {
 
     const res = await request(app)
       .delete(`/api/posts/${postId}`)
+      .set('Cookie', [`accessToken=${accessToken}`])
       .expect(200);
 
     // expect(res.body).toEqual({

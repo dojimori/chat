@@ -10,14 +10,14 @@ export class PostController {
     return res.status(200).send('ok')
   }
 
-  getAll = async (req: Request, res: Response) => {
+  index = async (req: Request, res: Response) => {
     const posts = await this.postService.getAll()
 
     return res.status(200).json({ posts })
   }
 
   create = async (req: Request<{}, {}, CreatePostDto>, res: Response) => {
-    const userId = (req as any).userId || 1;
+    const userId = (req as any).userId;
     const post = await this.postService.create(userId, req.body);
 
     return res.status(201).json({ message: 'Post created successfully', post })

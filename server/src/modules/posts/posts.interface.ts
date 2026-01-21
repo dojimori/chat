@@ -7,5 +7,5 @@ export interface IPostRepository {
   create(userId: number, payload: CreatePostDto): Promise<Post>;
   update(id: number, payload: UpdatePostDto): Promise<Post>;
   delete(id: number): Promise<Post>;
-  findUnique(id: number): Promise<Post | null>;
+  show(id: number): Promise<Post | null>;
 }

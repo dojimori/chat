@@ -11,13 +11,11 @@ const postController = new PostController(postService)
 
 const router = Router()
 
-router.get('/', postController.getAll);
+router.get('/', postController.index);
 router.get('/health', postController.healthCheck);
 
-router.post('/', postController.create);
-router.delete('/:id', postController.delete);
-router.put('/:id', postController.update);
-
-
+router.post('/', authMiddleware, postController.create);
+router.delete('/:id', authMiddleware, postController.delete);
+router.put('/:id', authMiddleware, postController.update);
 
 export default router;

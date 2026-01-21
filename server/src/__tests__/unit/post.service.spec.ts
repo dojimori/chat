@@ -12,7 +12,8 @@ describe('post service test', () => {
     mockPostRepo = {
       create: jest.fn(),
       update: jest.fn(),
-      getAll: jest.fn()
+      getAll: jest.fn(),
+      show: jest.fn(),
     } as any;
 
     // created a new instance of the service and pass in the mocked repo

@@ -14,7 +14,7 @@ export class PostRepository implements IPostRepository {
     return await prisma.post.create({
       data: {
         title: title ?? undefined,
-        description: description ?? undefined,
+        description: description,
         user: {
           connect: { id: userId }
         }
@@ -42,7 +42,7 @@ export class PostRepository implements IPostRepository {
     })
   }
 
-  async findUnique(id: number): Promise<Post | null> {
+  async show(id: number): Promise<Post | null> {
     return await prisma.post.findUnique({
       where: {
         id
