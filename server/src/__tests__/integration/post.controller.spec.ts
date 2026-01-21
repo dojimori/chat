@@ -17,18 +17,14 @@ jest.mock('../../../lib/prisma', () => {
     },
   };
 });
-
+/*------------------------------------*/
 
 import request from 'supertest'
 import { app } from "../../app"
-import { PostService } from '../../modules/posts/posts.service';
 import postsRoutes from '../../modules/posts/posts.route'
 
 
 describe('POST /posts', () => {
-
-  let mockService: any;
-
   beforeAll(() => {
     app.use('/api/posts', postsRoutes);
   })
