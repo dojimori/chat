@@ -3,9 +3,19 @@ import { CreatePostDto } from "./dtos/create.dto";
 import { UpdatePostDto } from "./dtos/update.dto";
 
 export interface IPostRepository {
-  getAll(userId: number): Promise<Post[] | null>;
+  getAll(
+    userId: number,
+    page?: number,
+    limit?: number,
+    skip?: number
+  ): Promise<Post[] | PostPaginate>;
   create(userId: number, payload: CreatePostDto): Promise<Post>;
   update(id: number, payload: UpdatePostDto): Promise<Post>;
   delete(id: number): Promise<Post>;
   show(id: number): Promise<Post | null>;
+}
+
+export interface PostPaginate {
+  posts: Post[];
+  total: number;
 }
