@@ -42,4 +42,12 @@ export class PostRepository implements IPostRepository {
     })
   }
 
+  async findUnique(id: number): Promise<Post | null> {
+    return await prisma.post.findUnique({
+      where: {
+        id
+      }
+    })
+  }
+
 }

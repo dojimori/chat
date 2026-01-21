@@ -24,17 +24,21 @@ export class PostService {
     if (!payload.description) {
       throw new AppError('Description is required', 400)
     }
+    const post = await this.postRepo.findUnique(id);
 
-    const post = await this.postRepo.update(id, payload);
-    return post;
+    if (!post) {
+      throw new AppError('Post not found', 404)
+    }
+
+    return await this.postRepo.update(id, payload);
   }
 
   async delete(id: number) {
-    // if (!payload.description) {
-    //   throw new AppError('Description is required', 400)
-    // }
-    // TODO: find unique post before deleting
+    const post = await this.postRepo.findUnique(id);
 
+    if (!post) {
+      throw new AppError('Post not found', 404)
+    }
 
     return await this.postRepo.delete(id)
   }
