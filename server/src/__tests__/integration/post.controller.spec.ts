@@ -57,12 +57,23 @@ describe('POST /posts', () => {
   })
 
   it('should update post -> status 200', async () => {
+
     const postId = 1;
-    const payload = { title: 'Hello', description: 'World' };
+    const payload = { title: 'Updated title', description: 'Updated description' };
+    const fakePost = { id: 1, userId: 1, ...payload };
+
+
+    (prisma.post.update as jest.Mock).mockResolvedValue(fakePost);
+
     const res = await request(app)
       .put(`/api/posts/${postId}`)
       .send(payload)
       .expect(200);
+
+    expect(res.body).toEqual({
+      message: 'Post updated successfully',
+      post: fakePost
+    })
 
   })
 
