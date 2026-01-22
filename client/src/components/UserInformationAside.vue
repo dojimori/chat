@@ -1,19 +1,13 @@
 <template>
   <!-- user profile section -->
-  <div
-    v-motion-slide-right
-    class="bg-white border border-gray-200 p-4 shadow-xs md:shadow-lg w-full lg:w-[200px] overflow-y-auto"
-  >
+  <div v-motion-slide-right
+    class="bg-white border border-gray-200 p-4 shadow-xs md:shadow-lg w-full lg:w-[200px] overflow-y-auto">
     <div v-if="user" class="flex flex-col items-center justify-center">
       <!-- pfp -->
-      <img
-        :src="
-          user.profile && user.profile.profilePicture
-            ? `http://localhost:8080${user.profile.profilePicture}`
-            : '/def_pfp_6.jpg'
-        "
-        class="pfp border-2 border-gray-400"
-      />
+      <img :src="user.profile && user.profile.profilePicture
+          ? `http://localhost:8080${user.profile.profilePicture}`
+          : '/def_pfp_6.jpg'
+        " class="pfp border-2 border-gray-400" />
       <!-- username -->
       <h1 class="mt-4 font-bold">
         {{ user.profile?.displayName || user.username }}
@@ -67,24 +61,16 @@
         <div :class="['flex justify-between', { 'flex-col gap-2': user.profile?.likes }]">
           <span class="font-bold text-gray-600">likes</span>
           <span v-if="!user.profile?.likes">-</span>
-          <span
-            v-else
-            class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 duration-150"
-            >{{ user.profile?.likes }}</span
-          >
+          <span v-else class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 duration-150">{{
+            user.profile?.likes }}</span>
         </div>
 
         <!-- dislikes -->
-        <div
-          :class="['flex justify-between', { 'flex-col gap-2': user.profile?.dislikes }]"
-        >
+        <div :class="['flex justify-between', { 'flex-col gap-2': user.profile?.dislikes }]">
           <span class="font-bold text-gray-600">dislikes</span>
           <span v-if="!user.profile?.dislikes">-</span>
-          <span
-            v-else
-            class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 duration-150"
-            >{{ user.profile.dislikes }}</span
-          >
+          <span v-else class="bg-blue-500/5 p-2 border border-gray-300 rounded-sm hover:-translate-y-1 duration-150">{{
+            user.profile.dislikes }}</span>
         </div>
       </div>
     </div>

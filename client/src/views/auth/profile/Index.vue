@@ -14,7 +14,7 @@
             " class="pfp border-2 border-gray-400 w-[50px]" />
           <div class="flex flex-col">
             <h4 class="font-bold">{{ user?.username }}</h4>
-            <span class="text-gray-600" style="font-size: 11px;">joined at</span>
+            <span class="text-gray-600" style="font-size: 10px;">joined</span>
             <span class="text-xs text-gray-500">{{
               new Date(user?.createdAt).toLocaleDateString()
             }}</span>
@@ -24,7 +24,7 @@
 
 
       <div class="flex-1 bg-white">
-        <div class="p-2 flex-1 flex flex-col gap-3 min-h-[400px] max-h-[400px] lg:min-h-[660px] lg:max-h-[660px]">
+        <div class="p-2 flex-1 flex flex-col gap-3 min-h-[400px] lg:min-h-[660px]">
           <div class="flex flex-col gap-4 bg-gray-100 border border-gray-300 rounded-sm p-4">
             <textarea name="" id=""
               class="bg-white p-4 outline-none border border-gray-300 shadow-inner focus:border-blue-500 duration-100"
@@ -69,6 +69,17 @@
               </div>
               <!-- end footer -->
             </div>
+          </div>
+          <div class="pagination">
+            <button :disabled="page === 1" @click="page--">
+              Prev
+            </button>
+
+            <span>Page {{ page }} / {{ lastPage }}</span>
+
+            <button :disabled="page === lastPage" @click="page++">
+              Next
+            </button>
           </div>
         </div>
       </div>
@@ -125,7 +136,10 @@ export default {
     return {
       user: null as User,
       postDescription: '',
-      posts: [] as Post[]
+      posts: [] as Post[],
+      limit: 5,
+      lastPage: 1,
+      page: 1
     };
   },
 
@@ -134,18 +148,25 @@ export default {
       try {
         const response = await api.post('/posts', { description: this.postDescription })
         console.log(response)
+
+        await this.getPosts();
       } catch (error) {
         console.log(error)
       }
     },
 
-    async getPosts() {
+    async fetchPosts() {
       try {
-        const response = await api.get('/posts')
+        const response = await api.get('/posts', {
+          params: {
+            page: this.page,
+            limit: this.limit
+          }
+        })
 
-        if (response.statusText == 'OK') {
-          this.posts = response.data.posts
-        }
+        this.posts = response.data.posts
+        this.lastPage = response.data.meta.lastPage
+
       } catch (error) {
         console.log(error)
       }
@@ -158,9 +179,15 @@ export default {
     },
   },
 
+  watch: {
+    async page() {
+      await this.fetchPosts();
+    }
+  },
+
   async mounted() {
     this.user = this.store.getUser;
-    await this.getPosts()
+    await this.fetchPosts()
   },
 };
 </script>
