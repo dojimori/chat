@@ -1,4 +1,5 @@
 <template>
+  <loading-overlay :loading="isLoading"></loading-overlay>
   <main class="flex flex-col gap-0 border border-gray-400 w-full sm:w-2xl md:w-3xl lg:w-7xl min-h-[844px]">
     <header-component></header-component>
     <div class="flex-1 flex flex-col justify-center">
@@ -106,6 +107,7 @@ import UserInformation from "@/components/UserInformationAside.vue";
 import { PhThumbsUp, PhThumbsDown } from "@phosphor-icons/vue";
 import api from "@/utils/api";
 import { useStore } from "@/store";
+import LoadingOverlay from "@/components/LoadingOverlay.vue";
 
 
 interface Post {
@@ -132,6 +134,7 @@ export default {
     UserInformation,
     PhThumbsUp,
     PhThumbsDown,
+    LoadingOverlay
   },
 
   data() {
@@ -141,7 +144,8 @@ export default {
       posts: [] as Post[],
       limit: 5,
       lastPage: 1,
-      page: 1
+      page: 1,
+      isLoading: false
     };
   },
 
@@ -159,6 +163,7 @@ export default {
 
     async fetchPosts() {
       try {
+        this.isLoading = true
         const response = await api.get('/posts', {
           params: {
             page: this.page,
@@ -171,6 +176,11 @@ export default {
 
       } catch (error) {
         console.log(error)
+      } finally {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 1000)
+
       }
     }
   },
