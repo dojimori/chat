@@ -70,14 +70,16 @@
               <!-- end footer -->
             </div>
           </div>
-          <div class="pagination">
-            <button :disabled="page === 1" @click="page--">
+          <div class="flex gap-2 items-center">
+            <button class="bg-primary text-white p-2 border border-gray-200 cursor-pointer" :disabled="page === 1"
+              @click="page--">
               Prev
             </button>
 
-            <span>Page {{ page }} / {{ lastPage }}</span>
+            <small class="text-gray-800">Page {{ page }} / {{ lastPage }}</small>
 
-            <button :disabled="page === lastPage" @click="page++">
+            <button class="bg-primary text-white p-2 border border-gray-200 cursor-pointer"
+              :disabled="page === lastPage" @click="page++">
               Next
             </button>
           </div>

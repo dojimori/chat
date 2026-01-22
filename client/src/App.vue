@@ -36,6 +36,10 @@ body {
   margin: 0;
   padding: 12px;
 }
+
+.bg-primary {
+  background: linear-gradient(to bottom, #4e69a2, #3b5998);
+}
 </style>
 
 <script>
