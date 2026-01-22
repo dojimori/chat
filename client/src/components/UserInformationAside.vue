@@ -1,12 +1,13 @@
 <template>
   <!-- user profile section -->
-  <div v-motion-slide-right
+  <!-- <div v-motion-slide-right -->
+  <div v-motion-fade
     class="bg-white border border-gray-200 p-4 shadow-xs md:shadow-lg w-full lg:w-[200px] overflow-y-auto">
     <div v-if="user" class="flex flex-col items-center justify-center">
       <!-- pfp -->
       <img :src="user.profile && user.profile.profilePicture
-          ? `http://localhost:8080${user.profile.profilePicture}`
-          : '/def_pfp_6.jpg'
+        ? `http://localhost:8080${user.profile.profilePicture}`
+        : '/def_pfp_6.jpg'
         " class="pfp border-2 border-gray-400" />
       <!-- username -->
       <h1 class="mt-4 font-bold">
