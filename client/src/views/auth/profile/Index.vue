@@ -151,7 +151,7 @@ export default {
         const response = await api.post('/posts', { description: this.postDescription })
         console.log(response)
 
-        await this.getPosts();
+        await this.fetchPosts();
       } catch (error) {
         console.log(error)
       }
