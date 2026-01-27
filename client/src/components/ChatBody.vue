@@ -15,10 +15,10 @@
 
     <p :class="[
       'font-bold text-[#29487d] mt-2',
-      { 'text-green-600': data.username == user?.username },
+      { 'text-green-600': data.userId == user?.id },
     ]">
       <small class="mr-2">{{
-        data.username == user?.username ? "You" : data.username
+        data.userId == user?.id ? "You" : data.username
       }}</small>
       <small class="text-gray-400 font-light">{{
         new Date(data.time).toLocaleTimeString([], { timeStyle: "short" })
@@ -36,7 +36,7 @@ export default {
 
   mounted() {
     console.log('user' + JSON.stringify(this.user))
-    console.log(this.data)
+    console.log('data' + JSON.stringify(this.data))
   },
 
   methods: {
