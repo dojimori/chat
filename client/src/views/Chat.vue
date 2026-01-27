@@ -9,57 +9,15 @@
         <!-- chat box -->
         <div v-motion :initial="{ opacity: 0 }" :enter="{ opacity: 1 }" :duration="300"
           class="flex-1 flex flex-col justify-between">
-          <!-- chat header -->
-          <!-- <div
-            class="text-center border-b border-gray-300 py-2 flex items-center justify-between px-2"
-          >
-            <h2 class="font-bold text-[#29487d]">Open Line</h2>
-            <button
-              @click="logout"
-              class="bg-slate-100 px-3 py-1.5 border border-slate-400 text-[#29487d] font-bold cursor-pointer flex items-center gap-2 hover:bg-slate-200 hover:translate-y-[-3px] duration-200"
-            >
-              <ph-sign-out></ph-sign-out>
-              Logout
-            </button>
-          </div> -->
-
-          <!-- chat-body -->
-          <!-- <div
+          <!-- chat body -->
+          <div v-if="messages"
             class="p-2 flex-1 flex flex-col gap-3 min-h-[400px] max-h-[400px] lg:min-h-[660px] lg:max-h-[660px] overflow-y-scroll"
             ref="chatBox">
-            <div v-motion :initial="{ opacity: 0 }" :enter="{ opacity: 1 }" :duration="800"
-              v-for="(data, index) in messages" :key="index" class="flex flex-col p-1.5 gap-1">
-              <!--
-              <div v-if="data.type == 'chat'">
-                <div class="flex flex-row flex-wrap gap-4">
-                  <img :src="data.profilePicture
-                    ? `http://localhost:8080${data.profilePicture}`
-                    : '/def_pfp_6.jpg'
-                    " class="pfp border-2 border-gray-400" />
-                  <span
-                    class="flex break-all items-center text-xs bg-blue-50 border border-blue-100 px-2.5 py-0.5 cursor-pointer message-box max-w-[300px]"
-                    v-html="renderMessage(data.message)">
-                  </span>
-                </div>
-                <p :class="[
-                  'font-bold text-[#29487d] mt-2',
-                  { 'text-green-600': data.userId == user.id },
-                ]">
-                  <small class="mr-2">{{
-                    data.userId == user.id ? "You" : data.username
-                  }}</small>
-                  <small class="text-gray-400 font-light">{{
-                    new Date(data.time).toLocaleTimeString([], { timeStyle: "short" })
-                  }}</small>
-                </p>
-              </div>
-              <div v-else class="text-center">
-                <small class="text-gray-600">{{ data.message }}</small>
-              </div>
+            <div v-for="(data, index) in messages" :key="data.id" class="flex flex-col p-1.5 gap-1">
+              <chat-body :data="data" :user="user"></chat-body>
             </div>
-          </div> -->
-
-          <ChatBody />
+          </div>
+          <!-- end chat body -->
 
           <!-- chat actions -->
           <form class="flex gap-2 p-2 bg-gray-100 border-t-2 border-gray-200 relative" @submit.prevent="sendMessage">
@@ -88,6 +46,226 @@
     </div>
   </main>
 </template>
+
+
+<script>
+/*=========COMPONENTS========= */
+import EmojiPicker from "@/components/EmojiPicker.vue";
+import ActiveUsers from "@/components/ActiveUsers.vue";
+import ChatBody from "@/components/ChatBody.vue";
+import UserInformation from "@/components/UserInformationAside.vue";
+import HeaderComponent from "@/components/HeaderComponent.vue";
+import { PhPaperPlaneRight, PhSmiley } from "@phosphor-icons/vue";
+
+/*=========UTILITIES========= */
+import { socket } from "@/utils/socket";
+import { emojis } from "@/utils/emojis";
+import { useStore } from "@/store";
+import api from "@/utils/api";
+
+export default {
+  name: "ChatView",
+  components: {
+    EmojiPicker,
+    ActiveUsers,
+    UserInformation,
+    PhPaperPlaneRight,
+    HeaderComponent,
+    PhSmiley,
+    ChatBody
+  },
+  data() {
+    return {
+      messages: [],
+      message: "",
+      showEmoji: false,
+      emojiMap: {},
+      user: null,
+      typingText: null,
+      isTyping: false,
+      activeUsers: null,
+    };
+  },
+
+  computed: {
+    store() {
+      return useStore();
+    },
+  },
+
+  methods: {
+    async fetchChats() {
+      try {
+        const { data } = await api.get("/chats");
+        const { chats } = data;
+
+        chats.forEach((chat) => {
+          this.messages.push({
+            id: crypto.randomUUID(),
+            message: chat.message,
+            time: chat.time,
+            username: chat.user.profile?.displayName || chat.user.username,
+            type: "chat",
+            profilePicture: chat.user.profile?.profilePicture || null,
+            userId: chat.user.id,
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async sendMessage() {
+      const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
+      if (this.message.trim() == "") return;
+
+      socket.emit("chat:message", {
+        message: this.message,
+        time: currentTime,
+        userId: this.user.id,
+      });
+      // this.messages.push(this.message)
+      this.message = "";
+      this.showEmoji = false;
+    },
+
+    onTyping() {
+      this.isTyping = true;
+      socket.emit("typing", `${this.user.username} is typing...`);
+    },
+
+    onStopTyping() {
+      socket.emit("stop_typing");
+    },
+
+    emojiHandler({ path, emoji }) {
+      this.emojiMap[emoji] = path;
+      const input = this.$refs.messageInput;
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      this.message =
+        this.message.substring(0, start) + emoji + this.message.substring(end);
+
+      this.$nextTick(() => {
+        input.focus();
+        const newPosition = start + emoji.length;
+        input.setSelectionRange(newPosition, newPosition);
+      });
+      // this.showEmoji = false;
+    },
+
+    renderMessage(raw) {
+      let rendered = raw;
+
+      emojis.map(({ emoji, path }) => {
+        let imgEl = `<img src='${path}' alt='${emoji}' class='message-emoji'/>`;
+        rendered = rendered.replaceAll(emoji, imgEl);
+      });
+      // console.log(`<span class='w-[300px] text-red text-wrap'>${rendered}</span>`);
+      return `<span class='text-red text-wrap'>${rendered}</span>`;
+    },
+
+    // async logout() {
+    //   // localStorage.removeItem("user");
+    //   // await fetch("http://localhost:8080/api/auth/logout", {
+    //   //   method: "POST",
+    //   //   credentials: "include",
+    //   // });
+
+    //   await authApi.logout();
+
+    //   socket.emit("left");
+
+    //   this.$router.push("/");
+    // },
+
+    scrollToBottom() {
+      this.$nextTick(() => {
+        const el = this.$refs.chatBox;
+        if (!el) return;   // important guard
+        el.scrollTop = el.scrollHeight;
+      });
+    },
+
+  },
+
+  beforeUnmount() {
+    socket.off("joined");
+    socket.off("active-users");
+    socket.off("left");
+    socket.off("chat:message");
+    socket.off("typing");
+    socket.off("stop_typing");
+  },
+
+  async mounted() {
+    await this.fetchChats();
+    // this.scrollToBottom();
+
+    // this.user = await userApi.getMe();
+    // this.user = this.$store.state.user;
+    this.user = this.store.getUser;
+    if (!this.user) {
+      await this.store.fetchUser();
+      this.user = this.store.getUser;
+    }
+
+    socket.emit("join", {
+      username: this.user.username,
+      id: this.user.id,
+      type: "join",
+      displayName: this.user.profile?.displayName,
+      profilePicture: this.user.profile?.profilePicture,
+    });
+
+    socket.on("joined", (data) => {
+      this.messages.push({
+        message: data,
+        type: "joined",
+      });
+
+      // this.scrollToBottom();
+    });
+
+    socket.on("active-users", (users) => {
+      this.activeUsers = users;
+    });
+
+    socket.on("left", (data) => {
+      this.messages.push({
+        message: data,
+        type: "left",
+      });
+
+      // this.scrollToBottom();
+    });
+
+    socket.on("chat:message", (data) => {
+      this.messages.push({
+        message: data.message,
+        time: data.time,
+        username: data.user.displayName || data.user.username,
+        type: "chat",
+        profilePicture: data.user.profilePicture || null,
+        userId: data.user.id,
+      });
+
+      // this.scrollToBottom();
+    });
+
+    socket.on("typing", (data) => {
+      this.typingText = data;
+    });
+
+    socket.on("stop_typing", (data) => {
+      this.typingText = null;
+    });
+
+    // this.$nextTick(() => this.$nextTick(() => this.scrollToBottom()));
+  },
+};
+</script>
+
 
 <style scoped>
 .v-enter-active,
@@ -176,207 +354,3 @@ img:hover {
   }
 }
 </style>
-
-<script>
-/*=========COMPONENTS========= */
-import EmojiPicker from "@/components/EmojiPicker.vue";
-import ActiveUsers from "@/components/ActiveUsers.vue";
-import ChatBody from "@/components/ChatBody.vue";
-import UserInformation from "@/components/UserInformationAside.vue";
-import HeaderComponent from "@/components/HeaderComponent.vue";
-import { PhPaperPlaneRight, PhSmiley } from "@phosphor-icons/vue";
-
-/*=========UTILITIES========= */
-import { socket } from "@/utils/socket";
-import { emojis } from "@/utils/emojis";
-import { useStore } from "@/store";
-import api from "@/utils/api";
-
-
-export default {
-  name: "ChatView",
-  components: {
-    EmojiPicker,
-    ActiveUsers,
-    UserInformation,
-    PhPaperPlaneRight,
-    HeaderComponent,
-    PhSmiley,
-    ChatBody
-  },
-  data() {
-    return {
-      messages: [],
-      message: "",
-      showEmoji: false,
-      emojiMap: {},
-      user: null,
-      typingText: null,
-      isTyping: false,
-      activeUsers: null,
-    };
-  },
-
-  computed: {
-    store() {
-      return useStore();
-    },
-  },
-
-  methods: {
-    async fetchChats() {
-      try {
-        const { data } = await api.get("/chats");
-        const { chats } = data;
-
-        chats.forEach((chat) => {
-          this.messages.push({
-            message: chat.message,
-            time: chat.time,
-            username: chat.user.profile?.displayName || chat.user.username,
-            type: "chat",
-            profilePicture: chat.user.profile?.profilePicture || null,
-            userId: chat.user.id,
-          });
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    },
-
-    async sendMessage() {
-      const currentTime = new Date().toLocaleString("en-US", { timeZone: "Asia/Manila" });
-      if (this.message.trim() == "") return;
-
-      socket.emit("chat:message", {
-        message: this.message,
-        time: currentTime,
-        userId: this.user.id,
-      });
-      // this.messages.push(this.message)
-      this.message = "";
-      this.showEmoji = false;
-    },
-
-    onTyping() {
-      this.isTyping = true;
-      socket.emit("typing", `${this.user.username} is typing...`);
-    },
-
-    onStopTyping() {
-      socket.emit("stop_typing");
-    },
-
-    emojiHandler({ path, emoji }) {
-      this.emojiMap[emoji] = path;
-      const input = this.$refs.messageInput;
-      const start = input.selectionStart;
-      const end = input.selectionEnd;
-      this.message =
-        this.message.substring(0, start) + emoji + this.message.substring(end);
-
-      this.$nextTick(() => {
-        input.focus();
-        const newPosition = start + emoji.length;
-        input.setSelectionRange(newPosition, newPosition);
-      });
-      // this.showEmoji = false;
-    },
-
-    renderMessage(raw) {
-      let rendered = raw;
-
-      emojis.map(({ emoji, path }) => {
-        let imgEl = `<img src='${path}' alt='${emoji}' class='message-emoji'/>`;
-        rendered = rendered.replaceAll(emoji, imgEl);
-      });
-      // console.log(`<span class='w-[300px] text-red text-wrap'>${rendered}</span>`);
-      return `<span class='text-red text-wrap'>${rendered}</span>`;
-    },
-
-    // async logout() {
-    //   // localStorage.removeItem("user");
-    //   // await fetch("http://localhost:8080/api/auth/logout", {
-    //   //   method: "POST",
-    //   //   credentials: "include",
-    //   // });
-
-    //   await authApi.logout();
-
-    //   socket.emit("left");
-
-    //   this.$router.push("/");
-    // },
-
-    scrollToBottom() {
-      this.$nextTick(() => {
-        const el = this.$refs.chatBox;
-        console.log(el.scrollHeight);
-        if (el) el.scrollTop = el.scrollHeight;
-      });
-    },
-  },
-
-  async mounted() {
-    await this.fetchChats();
-    this.scrollToBottom;
-
-    // this.user = await userApi.getMe();
-    // this.user = this.$store.state.user;
-    this.user = this.store.getUser;
-
-    socket.emit("join", {
-      username: this.user.username,
-      id: this.user.id,
-      type: "join",
-      displayName: this.user.profile?.displayName,
-      profilePicture: this.user.profile?.profilePicture,
-    });
-
-    socket.on("joined", (data) => {
-      this.messages.push({
-        message: data,
-        type: "joined",
-      });
-
-      this.scrollToBottom();
-    });
-
-    socket.on("active-users", (users) => {
-      this.activeUsers = users;
-    });
-
-    socket.on("left", (data) => {
-      this.messages.push({
-        message: data,
-        type: "left",
-      });
-
-      this.scrollToBottom();
-    });
-
-    socket.on("chat:message", (data) => {
-      this.messages.push({
-        message: data.message,
-        time: data.time,
-        username: data.user.displayName || data.user.username,
-        type: "chat",
-        profilePicture: data.user.profilePicture || null,
-        userId: data.user.id,
-      });
-
-      this.scrollToBottom();
-    });
-
-    socket.on("typing", (data) => {
-      this.typingText = data;
-    });
-
-    socket.on("stop_typing", (data) => {
-      this.typingText = null;
-    });
-
-    // this.$nextTick(() => this.$nextTick(() => this.scrollToBottom()));
-  },
-};
-</script>
